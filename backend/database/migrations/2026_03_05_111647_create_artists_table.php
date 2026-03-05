@@ -20,6 +20,10 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable(true);
             $table->date('date_of_death')->nullable(true);
             $table->string('main_medium')->nullable(true);
+            $table->string('picture')->nullable(true);
+            $table->string('banner')->nullable(true);
+            $table->text('biography')->nullable(true);
+
             $table->softDeletes();
         });
     }
