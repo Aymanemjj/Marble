@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('collage_pieces', function (Blueprint $table) {
-            $table->id();
             $table->timestamps();
+            $table->foreignId('piece_id')->nullable(false)->constrained('pieces');
+            $table->foreignId('collage_id')->nullable(false)->constrained('collages');
+
         });
     }
 

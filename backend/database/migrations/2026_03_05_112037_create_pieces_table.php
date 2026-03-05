@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('pieces', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('title')->nullable(false);
+            $table->text('story')->nullable(false);
+            $table->date('date')->nullable(true);
+            $table->softDeletes();
         });
     }
 

@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('collages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('title')->nullable(false);
+            $table->string('description')->nullable(true);
+            $table->boolean('public')->nullable(false);
+            $table->softDeletes();
         });
     }
 

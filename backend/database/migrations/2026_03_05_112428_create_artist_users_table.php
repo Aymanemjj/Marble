@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artist_users', function (Blueprint $table) {
-            $table->id();
             $table->timestamps();
+            $table->foreignId('user_id')->nullable(false)->constrained('users');
+            $table->foreignId('following_id')->nullable(false)->constrained('artists');
         });
     }
 

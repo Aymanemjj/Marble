@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('picture')->nullable(true);
+            $table->string('banner')->nullable(true);
+            $table->text('biography')->nullable(true);
+            $table->foreignId('user_id')->nullable(true)->constrained("users");
+            $table->foreignId('artist_id')->nullable(true)->constrained("artists");
+            $table->softDeletes();
         });
     }
 

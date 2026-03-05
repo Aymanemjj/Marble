@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('firstname')->nullable(false);
+            $table->string('middlename')->nullable(true);
+            $table->string('lastname')->nullable(false);
+            $table->date('date_of_birth')->nullable(true);
+            $table->date('date_of_death')->nullable(true);
+            $table->string('main_medium')->nullable(true);
+            $table->softDeletes();
         });
     }
 
