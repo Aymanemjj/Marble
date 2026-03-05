@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Piece extends Model
 {
-    //
+    protected $fillable=[
+        'title',
+        'story',
+        'date'
+    ];
 }
