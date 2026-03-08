@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function register(request $request)
+    public function store(request $request)
     {
         $date = Carbon::today()->subYears(6)->toDateString();
 
@@ -32,7 +33,7 @@ class RegisterController extends Controller
         }
         $request['token'] = bin2hex(random_bytes(16));
 
-        
+
         $user = User::create([
             'firstname' => $request->firstname,
             'middlename' => $request->middlename,
@@ -43,5 +44,7 @@ class RegisterController extends Controller
             'token' => $request->token,
 
         ]);
+
+        return response()->json([$user], 200);
     }
 }
