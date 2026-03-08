@@ -12,7 +12,6 @@ class RegisterController extends Controller
     public function register(request $request)
     {
         $date = Carbon::today()->subYears(6)->toDateString();
-        $now = Carbon::today()->toDateString(); 
 
         $request->validate([
             'firstname' => ['required', 'string', 'max:255'],
@@ -21,7 +20,6 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'max:255', 'confirmed'],
             'date_of_birth' => ["before:$date"],
-            'date_of_death' => ["before:$now"],
             'main_medium' => ['max:255', 'exists:App\Models\Tag,name']
 
         ]);
@@ -34,9 +32,10 @@ class RegisterController extends Controller
         }
         $request['token'] = bin2hex(random_bytes(16));
 
-
+        
         $user = User::create([
             'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
