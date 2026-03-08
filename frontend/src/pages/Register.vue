@@ -17,6 +17,7 @@ import BasicButton from '../components/BasicButton.vue';
         <BasicInput label="Confirm password" name="confirm-password" type="password" />
         <BasicButton label="Register" type="submit" class="col-span-2" />
       </form>
+      <RouterLink to="/login" class="text-text font-bold hover:underline text-md">Already have an account?</RouterLink>
     </div>
   </main>
 </template>
