@@ -1,5 +1,6 @@
 <script setup>
-import Register from './pages/Register.vue';
+import { RouterView } from 'vue-router';
+
 
 
 </script>
@@ -18,6 +19,6 @@ import Register from './pages/Register.vue';
         </div>
     </nav>
 
-    <Register />
+    <RouterView />
 
 </template>
