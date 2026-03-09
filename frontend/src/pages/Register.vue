@@ -4,6 +4,8 @@ import authBg from '../assets/authenticationBG.jpg'
 import BasicButton from '../components/BasicButton.vue';
 import axiosClient from '../axios.js';
 import { ref } from 'vue';
+import { signIn, signOut } from '../auth.js';
+import router from '../router.js';
 
 
 const data = ref({
@@ -19,8 +21,9 @@ const data = ref({
 
 async function submit() {
     try {
-        const res = await axiosClient.post('/register', data.value)
-        console.log(res.data)
+        const res = await axiosClient.post('/register', data.value);
+        signIn(res.data.user);
+        router.push('/');
     } catch (err) {
         console.log(err.res.data)
     }

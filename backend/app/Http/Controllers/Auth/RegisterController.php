@@ -45,6 +45,6 @@ class RegisterController extends Controller
 
         ]);
 
-        return response()->json([$user], 200);
+        return response()->json(["user"=>$user], 201);
     }
 }
