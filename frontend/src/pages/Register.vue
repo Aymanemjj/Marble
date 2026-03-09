@@ -25,7 +25,7 @@ async function submit() {
         signIn(res.data.user);
         router.push('/');
     } catch (err) {
-        console.log(err.res.data)
+        console.log(err.response.data)
     }
 }
 

@@ -2,6 +2,29 @@
 import BasicInput from '../components/BasicInput.vue';
 import authBg from '../assets/authenticationBG.jpg'
 import BasicButton from '../components/BasicButton.vue';
+import { ref } from 'vue';
+import axiosClient from '../axios';
+import router from '../router';
+import { signIn } from '../auth';
+
+
+
+const data = ref({
+  email: '',
+  password: '',
+
+})
+
+async function submit() {
+  try {
+    const res = await axiosClient.post('/login', data.value);
+    signIn(res.data.user);
+    router.push('/');
+  } catch (err) {
+    console.log(err.response.data)
+  }
+}
+
 </script>
 
 <template>
@@ -9,8 +32,8 @@ import BasicButton from '../components/BasicButton.vue';
     class="bg-cover bg-center bg-no-repeat grid grid-cols-5 gap-4 min-h-screen">
     <div class="col-span-2 bg-bg h-fit p-4">
       <form class="grid grid-cols-2 gap-4" @submit.prevent="submit">
-        <BasicInput label="Email" name="email" type="email" class="col-span-2" />
-        <BasicInput label="Password" name="password" type="password" class="col-span-2" />
+        <BasicInput v-model="data.email" label="Email" name="email" type="email" class="col-span-2" />
+        <BasicInput v-model="data.password" label="Password" name="password" type="password" class="col-span-2" />
         <BasicButton label="Login" type="submit" class="col-span-2" />
       </form>
       <RouterLink to="/register" class="text-text font-bold hover:underline text-md">Don't have an account?</RouterLink>

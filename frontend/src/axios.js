@@ -8,16 +8,20 @@ const axiosClient = axios.create({
 
 })
 
-/* axiosClient.interceptors.request.use(config=>{
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+axiosClient.interceptors.request.use(config => {
+    const token = localStorage.getItem('token')
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config 
 })
- */
 
-axiosClient.interceptors.response.use((response)=>{
+
+axiosClient.interceptors.response.use((response) => {
     return response;
-},error=>{
-    if(error.response && error.response.status === 401){
-        router.push({name:'Login'});
+}, error => {
+    if (error.response && error.response.status === 401) {
+        router.push({ name: 'Login' });
     }
     throw error;
 

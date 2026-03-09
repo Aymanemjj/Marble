@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function store(request $request)
+    public function register(request $request)
     {
         $date = Carbon::today()->subYears(6)->toDateString();
 
@@ -45,6 +45,27 @@ class RegisterController extends Controller
 
         ]);
 
-        return response()->json(["user"=>$user], 201);
+        return response()->json(["user" => $user], 201);
+    }
+
+    public function login(request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'password' => ['required', 'max:255'],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => "Email isn't registered"
+            ], 401);
+        }
+        
+        return response()->json([
+            'user' => $user,
+            'token' => $user->token
+        ]);
     }
 }
