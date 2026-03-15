@@ -3,69 +3,77 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Services\AuthService;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register(request $request)
+    private AuthService $AuthService;
+
+    public function __construct(AuthService $AuthService)
     {
-        $date = Carbon::today()->subYears(6)->toDateString();
-
-        $request->validate([
-            'firstname' => ['required', 'string', 'max:255'],
-            'middlename' => ['max:255', 'string'],
-            'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'max:255', 'confirmed'],
-            'date_of_birth' => ["before:$date"],
-            'main_medium' => ['max:255', 'exists:App\Models\Tag,name']
-
-        ]);
-
-        $user = User::first();
-        if (is_null($user)) {
-            $request['role'] = 1;
-        } else {
-            $request['role'] = 2;
-        }
-        $request['token'] = bin2hex(random_bytes(16));
-
-
-        $user = User::create([
-            'firstname' => $request->firstname,
-            'middlename' => $request->middlename,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role,
-            'token' => $request->token,
-
-        ]);
-
-        return response()->json(["user" => $user], 201);
+        $this->AuthService = $AuthService;
     }
 
-    public function login(request $request)
+
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
-            'password' => ['required', 'max:255'],
-        ]);
+        try {
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
             return response()->json([
-                'message' => "Email isn't registered"
-            ], 401);
+                'success' => true,
+                'message' => 'Inscription réussie.',
+                'data' => $this->AuthService->register($request)
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
-        
+    }
+
+    public function login(LoginRequest $request)
+    {
+        try {
+            return response()->json([
+                'success' => true,
+                'message' => 'Connexion réussie.',
+                'data' =>  $this->AuthService->login($request)
+            ], 200);
+            
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function profile(Request $request)
+    {
         return response()->json([
-            'user' => $user,
-            'token' => $user->token
-        ]);
+            'success' => true,
+            'message' => 'Profil utilisateur récupéré',
+            'data' => ["user"=>Auth::user()],
+        ],200);
+    }
+    public function logOut(Request $request)
+    {
+        try {
+            $this->AuthService->logOut($request);
+            return response()->json([
+                'success' => true,
+                'message' => 'Déconnexion réussie.',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
