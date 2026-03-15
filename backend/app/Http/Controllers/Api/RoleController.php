@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreArtistRequest;
-use App\Http\Requests\UpdateArtistRequest;
-use App\Models\Artist;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use App\Models\Role;
 
-class ArtistController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ArtistController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtistRequest $request)
+    public function store(StoreRoleRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ArtistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Artist $artist)
+    public function show(Role $role)
     {
         //
     }
@@ -43,7 +44,7 @@ class ArtistController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Artist $artist)
+    public function edit(Role $role)
     {
         //
     }
@@ -51,7 +52,7 @@ class ArtistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtistRequest $request, Artist $artist)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         //
     }
@@ -59,7 +60,7 @@ class ArtistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artist $artist)
+    public function destroy(Role $role)
     {
         //
     }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreProfileRequest;
-use App\Http\Requests\UpdateProfileRequest;
-use App\Models\Profile;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreArtistRequest;
+use App\Http\Requests\UpdateArtistRequest;
+use App\Models\Artist;
 
-class ProfileController extends Controller
+class ArtistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProfileRequest $request)
+    public function store(StoreArtistRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
+    public function show(Artist $artist)
     {
         //
     }
@@ -43,7 +44,7 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Profile $profile)
+    public function edit(Artist $artist)
     {
         //
     }
@@ -51,7 +52,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, Profile $profile)
+    public function update(UpdateArtistRequest $request, Artist $artist)
     {
         //
     }
@@ -59,7 +60,7 @@ class ProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Profile $profile)
+    public function destroy(Artist $artist)
     {
         //
     }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterController extends Controller
+class AuthController extends Controller
 {
     public function register(request $request)
     {
