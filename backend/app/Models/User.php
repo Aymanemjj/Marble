@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends GeneralUser
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -21,35 +18,36 @@ class User extends Authenticatable
         'firstname',
         'middlename',
         'lastname',
-        'email',
-        'password',
-        'token',
         'date_of_birth',
         'date_of_death',
-        'main_medium',
-        'role_id'
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
+        'email',
         'password',
-        'remember_token',
+        'role',
+        'status',
+        'main_medium',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    private function followedArtists():BelongsToMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsToMany(Artist::class,);
+    }
+
+    private function followedUsers():BelongsToMany{
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getFollowing(){
+        $artists = $this->followedArtists();
+        $users = $this->followedUsers();
+
+        return $artists->merge($users);
+    }
+
+    public function pieces():HasMany{
+        return $this->hasMany(Piece::class);
+    }
+
+    public function profile(): HasOne{
+        return $this->hasOne(Profile::class);
     }
 }

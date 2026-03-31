@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('name');
             $table->string('firstname')->nullable(false);
-            $table->string('middlename')->nullable(true);
+            $table->string('middlename')->nullable(true)->default(null);
             $table->string('lastname')->nullable(false);
             $table->date('date_of_birth')->nullable(true);
             $table->date('date_of_death')->nullable(true);
-            $table->string('main_medium')->nullable(true);
+            $table->string('main_medium')->nullable(true)->default(null);
+            $table->boolean('active')->default(true);
             $table->softDeletes();
         });
     }
@@ -37,6 +38,7 @@ return new class extends Migration
                 'date_of_birth',
                 'date_of_death',
                 'main_medium',
+                'active',
                 'deleted_at',
             ]);
             $table->string('name');

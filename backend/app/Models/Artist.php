@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Artist extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'firstname',
         'middlename',
         'lastname',
@@ -19,4 +21,11 @@ class Artist extends Model
     ];
 
 
+    public function followers():BelongsToMany {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function pieces():HasMany{
+        return $this->hasMany(Piece::class);
+    }
 }
