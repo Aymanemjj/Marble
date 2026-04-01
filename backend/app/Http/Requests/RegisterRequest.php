@@ -43,7 +43,6 @@ class RegisterRequest extends FormRequest
             'firstname.required' => 'Firstname is a required input.',
             'firstname.max' => 'Firstname needs to be less than 255 charachters.',
 
-            'middlename.required' => 'Middlename is a required input.',
             'middlename.max' => 'Middlename needs to be less than 255 charachters.',
 
             'lastname.required' => 'Lastname is a required input.',
