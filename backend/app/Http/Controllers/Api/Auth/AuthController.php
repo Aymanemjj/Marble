@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -23,12 +23,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Inscription réussie.',
-                'data' => $this->AuthService->register($request)
-            ], 201);
+            return  $this->AuthService->register($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -40,12 +35,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            return response()->json([
-                'success' => true,
-                'message' => 'Connexion réussie.',
-                'data' =>  $this->AuthService->login($request)
-            ], 200);
-            
+            return $this->AuthService->login($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -55,20 +45,19 @@ class AuthController extends Controller
     }
     public function profile(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Profil utilisateur récupéré',
-            'data' => ["user"=>Auth::user()],
-        ],200);
+        try {
+            return $this->AuthService->profile($request);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
     public function logOut(Request $request)
     {
         try {
-            $this->AuthService->logOut($request);
-            return response()->json([
-                'success' => true,
-                'message' => 'Déconnexion réussie.',
-            ], 200);
+            return $this->AuthService->logOut($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\AuthResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,14 @@ class AuthService
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
 
-        $results['token'] = $user->createToken('wallet_api')->plainTextToken;
+        $token = $user->createToken('Marble')->plainTextToken;
 
-        return [$results, $user];
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Registered succesfully.',
+            'data' => ["token" => $token, 'user' => AuthResource::make($user)]
+        ], 201);
     }
 
     public function login($request)
@@ -40,10 +46,14 @@ class AuthService
         }
 
         $user = Auth::user();
-        /* check later */
-        $token = $user->createToken('wallet_api')->plainTextToken;
 
-        return ["token" => $token, 'user' => $user];
+        $token = $user->createToken('Marble')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logedin seccesfully.',
+            'data' =>  ["token" => $token, 'user' => AuthResource::make($user)]
+        ], 200);
     }
 
 
@@ -51,5 +61,19 @@ class AuthService
     public function logout(Request $request)
     {
         Auth::user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'LogedOut seccesfully.',
+        ], 200);
+    }
+
+    public function profile($request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil utilisateur récupéré',
+            'data' => ["user" => AuthResource::make(Auth::user())],
+        ], 200);
     }
 }
