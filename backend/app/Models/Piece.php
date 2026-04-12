@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Piece extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'title',
         'story',
         'date',
@@ -17,14 +17,19 @@ class Piece extends Model
         'administered',
     ];
 
-    public function owner():BelongsToMany{
-        return $this->administered ? $this->belongsToMany(User::class) : $this->belongsToMany(Artist::class);
+    public function Artistowner(): BelongsToMany
+    {
+        return $this->belongsToMany(Artist::class);
     }
 
-    public function tags():BelongsToMany{
+    public function Userowner(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+
+    public function tags(): BelongsToMany
+    {
         return $this->belongsToMany(Tag::class);
     }
-
-
-
 }
