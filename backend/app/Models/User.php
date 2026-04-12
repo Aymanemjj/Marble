@@ -25,6 +25,7 @@ class User extends GeneralUser
         'role',
         'status',
         'main_medium',
+        'active',
     ];
 
     private function followedArtists():BelongsToMany

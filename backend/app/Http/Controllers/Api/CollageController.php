@@ -6,15 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCollageRequest;
 use App\Http\Requests\UpdateCollageRequest;
 use App\Models\Collage;
+use App\Services\CollageService;
 
 class CollageController extends Controller
 {
+
+    public function __construct(private CollageService $service) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        
     }
 
     /**

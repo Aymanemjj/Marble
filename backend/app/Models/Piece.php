@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -15,16 +16,17 @@ class Piece extends Model
         'path',
         'metadata',
         'administered',
+        'user_id'
     ];
 
-    public function Artistowner(): BelongsToMany
+    public function Artistowner(): BelongsTo
     {
-        return $this->belongsToMany(Artist::class);
+        return $this->belongsTo(Artist::class);
     }
 
-    public function Userowner(): BelongsToMany
+    public function Userowner(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
 

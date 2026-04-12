@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dtos\UserDTO;
 use App\Http\Resources\AuthResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class AuthService
         return response()->json([
             'success' => true,
             'message' => 'Registered succesfully.',
-            'data' => ["token" => $token, 'user' => AuthResource::make($user)]
+            'data' => ["token" => $token, 'user' => UserDTO::make($user)]
         ], 201);
     }
 
@@ -52,7 +53,7 @@ class AuthService
         return response()->json([
             'success' => true,
             'message' => 'Logedin seccesfully.',
-            'data' =>  ["token" => $token, 'user' => AuthResource::make($user)]
+            'data' =>  ["token" => $token, 'user' => UserDTO::make($user)]
         ], 200);
     }
 
@@ -73,7 +74,7 @@ class AuthService
         return response()->json([
             'success' => true,
             'message' => 'Profil utilisateur récupéré',
-            'data' => ["user" => AuthResource::make(Auth::user())],
+            'data' => ["user" => UserDTO::make(Auth::user())],
         ], 200);
     }
 }

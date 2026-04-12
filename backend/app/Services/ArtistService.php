@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dtos\ArtistDTO;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
 
@@ -23,7 +24,7 @@ class ArtistService
         return response()->json([
             'success' => true,
             'message' => 'All artists',
-            'data' => ['artists' => ArtistResource::collection($artists)]
+            'data' => ['artists' => ArtistDTO::collection($artists)]
         ]);
     }
 
@@ -37,7 +38,7 @@ class ArtistService
         return response()->json([
             'success' => true,
             'message' => 'Artist saved',
-            'data' => ['artist' => ArtistResource::make($artist)]
+            'data' => ['artist' => ArtistDTO::make($artist)]
         ]);
     }
 
@@ -52,7 +53,7 @@ class ArtistService
         return response()->json([
             'sucsess' => true,
             'message' => "$artist->firstname $artist->lastname has ben updated",
-            'data' => ['artist' => ArtistResource::make($artist)]
+            'data' => ['artist' => ArtistDTO::make($artist)]
         ]);
     }
 
@@ -71,7 +72,7 @@ class ArtistService
         return response()->json([
             'sucsess' => true,
             'message' => "$artist->firstname $artist->lastname has ben found",
-            'data' => ['artist' => ArtistResource::make($artist), 'pieces' => PieceResource::collection($pieces)]
+            'data' => ['artist' => ArtistDTO::make($artist), 'pieces' => PieceResource::collection($pieces)]
         ]);
     }
 
