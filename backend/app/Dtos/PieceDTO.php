@@ -4,16 +4,18 @@ namespace App\Dtos;
 
 use App\Models\Piece;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use JsonSerializable;
 
-class PieceDTO
+class PieceDTO implements JsonSerializable
 {
     public function __construct(
         private string $title,
         private string $story,
-        private Carbon $date,
+        private string $date,
         private string $path,
         private string $metadata,
-        private bool   $administered,
+        private ?array $tags,
     ) {}
 
     public static function make(Piece $piece): self
@@ -21,14 +23,14 @@ class PieceDTO
         return new self(
             $piece->title,
             $piece->story,
-            Carbon::parse($piece->date),
+            $piece->date,
             $piece->path,
             $piece->metadata,
-            $piece->administered,
+            $piece->tags->pluck('name')->toArray(),
         );
     }
 
-    public static function collection(array $pieces): array
+    public static function collection($pieces): array
     {
         $list = [];
         foreach ($pieces as $piece) {
@@ -37,6 +39,17 @@ class PieceDTO
         return $list;
     }
 
+    public function jsonSerialize(): array
+    {
+        return [
+            'title'     => $this->title,
+            'story'    => $this->story,
+            'date'      => $this->date,
+            'path'         => Storage::url($this->path),
+            'metadata' => $this->metadata,
+            'tags'  => $this->tags,
+        ];
+    }
 
     public function getTitle(): string
     {
@@ -46,7 +59,7 @@ class PieceDTO
     {
         return $this->story;
     }
-    public function getDate(): Carbon
+    public function getDate(): string
     {
         return $this->date;
     }
@@ -58,8 +71,8 @@ class PieceDTO
     {
         return $this->metadata;
     }
-    public function getAdministered(): bool
+    public function getTags(): array
     {
-        return $this->administered;
+        return $this->tags;
     }
 }

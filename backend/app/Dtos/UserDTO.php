@@ -3,8 +3,9 @@
 namespace App\Dtos;
 
 use App\Models\User;
+use JsonSerializable;
 
-class UserDTO
+class UserDTO implements JsonSerializable
 {
     /**
      * Create a new class instance.
@@ -14,7 +15,7 @@ class UserDTO
         private ?string $middlename,
         private string $lastname,
         private string $email,
-        private string $date_of_birth,
+        private ?string $date_of_birth,
         private ?string $main_medium
     ) {}
 
@@ -40,6 +41,18 @@ class UserDTO
             $list[] = self::make($user);
         }
         return $list;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'firstname'     => $this->firstname,
+            'middlename'    => $this->middlename,
+            'lastname'      => $this->lastname,
+            'email'         => $this->email,
+            'date_of_birth' => $this->date_of_birth,
+            'main_medium'   => $this->main_medium,
+        ];
     }
 
     public function getFirstname(): string
