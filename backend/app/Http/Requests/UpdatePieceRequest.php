@@ -6,23 +6,32 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePieceRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'title'        => 'sometimes|string',
+            'story'        => 'sometimes|string',
+            'date'         => 'sometimes|date',
+            'path'         => 'sometimes|file|mimes:jpg,jpeg,png,gif,webp|max:20480',
+            'metadata'     => 'sometimes|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.string'         => 'Title must be a string',
+            'story.string'         => 'Story must be a string',
+            'date.date'            => 'Date must be a valid date',
+            'path.file'            => 'Path must be a file',
+            'path.mimes'           => 'File must be an image or video (jpg, jpeg, png, gif, webp)',
+            'path.max'             => 'File size must not exceed 20MB',
+            'metadata.string'      => 'Metadata must be a string',
         ];
     }
 }
