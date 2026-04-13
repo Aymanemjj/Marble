@@ -36,7 +36,7 @@ class CreatorDTO implements JsonSerializable
         );
     }
 
-    public static function collection(array $creators): array
+    public static function collection($creators): array
     {
         $list = [];
         foreach ($creators as $creator) {

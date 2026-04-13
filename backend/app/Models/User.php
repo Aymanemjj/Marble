@@ -29,21 +29,26 @@ class User extends GeneralUser implements CreatorInterface
         'active',
     ];
 
-    private function followedArtists():BelongsToMany
+    public function followedArtists():BelongsToMany
     {
-        return $this->belongsToMany(Artist::class,);
+        return $this->belongsToMany(Artist::class,'artist_users', 'user_id','following_id');
     }
 
-    private function followedUsers():BelongsToMany{
-        return $this->belongsToMany(User::class);
+    public function followedUsers():BelongsToMany{
+        return $this->belongsToMany(User::class, 'user_users', 'user_id', 'following_id');
     }
 
     public function getFollowing(){
-        $artists = $this->followedArtists();
-        $users = $this->followedUsers();
+        $artists = $this->followedArtists()->get();
+        $users = $this->followedUsers()->get();
 
         return $artists->merge($users);
     }
+
+    public function getFollowers(){
+        return $this->belongsToMany(User::class, 'user_users', 'following_id');
+    }
+
 
     public function pieces():HasMany{
         return $this->hasMany(Piece::class);

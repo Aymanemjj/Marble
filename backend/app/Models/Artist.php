@@ -26,7 +26,7 @@ class Artist extends Model implements CreatorInterface
 
 
     public function followers():BelongsToMany {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'artist_users', 'following_id');
     }
 
     public function pieces():HasMany{
