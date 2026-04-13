@@ -20,29 +20,28 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (ModelNotFoundException $e, $request) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ressource introuvable',
+                'message' => "Can't find resource",
             ], 404);
         });
 
         $exceptions->render(function (MethodNotAllowedHttpException $e, $request) {
             return response()->json([
                 'success' => false,
-                'message' => 'Méthod HTTP non autorisé',
+                'message' => 'Unauthorized HTTP method',
             ], 405);
         });
 
         $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, $request) {
             return response()->json([
                 'success' => false,
-                'message' => 'Non authentifié',
+                'message' => 'Not authenticated',
             ], 401);
         });
 
         $exceptions->render(function (\Exception $e, $request) {
             return response()->json([
                 'success' => false,
-                'message' => 'error intern de serveur',
-                'ecxception' => "Une erreur interne est survenue. Veuillez réessayer.",
+                'message' => 'Internal server error',
                 "error" => $e->getMessage()
             ], 500);
         });

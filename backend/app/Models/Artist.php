@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\CreatorInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Artist extends Model
+class Artist extends Model implements CreatorInterface
 {
     use SoftDeletes;
 

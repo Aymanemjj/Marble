@@ -19,14 +19,11 @@ class Piece extends Model
         'user_id'
     ];
 
-    public function Artistowner(): BelongsTo
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(Artist::class);
-    }
-
-    public function Userowner(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+        return $this->administered
+            ? $this->belongsTo(Artist::class,'user_id')
+            : $this->belongsTo(User::class, 'user_id');
     }
 
 

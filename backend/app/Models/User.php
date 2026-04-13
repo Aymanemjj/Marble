@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Interfaces\CreatorInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends GeneralUser
+class User extends GeneralUser implements CreatorInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -50,5 +51,9 @@ class User extends GeneralUser
 
     public function profile(): HasOne{
         return $this->hasOne(Profile::class);
+    }
+
+    public function collages(){
+        return $this->hasMany(Collage::class);
     }
 }

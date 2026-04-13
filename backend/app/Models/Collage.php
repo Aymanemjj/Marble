@@ -11,7 +11,7 @@ class Collage extends Model
 {
     use SoftDeletes;
 
-    protected $fillabel =[
+    protected $fillable =[
         'title',
         'description',
         'public',
@@ -20,9 +20,10 @@ class Collage extends Model
 
 
     public function owner():BelongsTo{
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-    public function content():BelongsToMany{
+    public function pieces():BelongsToMany{
         return $this->belongsToMany(Piece::class);
     }
+
 }
