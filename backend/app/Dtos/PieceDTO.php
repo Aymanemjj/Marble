@@ -16,6 +16,7 @@ class PieceDTO implements JsonSerializable
         private string $path,
         private string $metadata,
         private ?array $tags,
+        private ?CreatorDTO $creator,
     ) {}
 
     public static function make(Piece $piece): self
@@ -27,6 +28,7 @@ class PieceDTO implements JsonSerializable
             $piece->path,
             $piece->metadata,
             $piece->tags->pluck('name')->toArray(),
+            CreatorDTO::make($piece->owner)
         );
     }
 
@@ -48,6 +50,16 @@ class PieceDTO implements JsonSerializable
             'path'         => Storage::url($this->path),
             'metadata' => $this->metadata,
             'tags'  => $this->tags,
+            'creator' => [
+                'id'=> $this->creator->getId(),
+                'firstname'     => $this->creator->getFirstname(),
+                'middlename'    => $this->creator->getMiddlename(),
+                'lastname'      => $this->creator->getLastname(),
+                'date_of_birth' => $this->creator->getDateOfBirth(),
+                'date_of_death'=> $this->creator->getDateOfDeath(),
+                'main_medium' => $this->creator->getMainMedium(),
+
+            ]
         ];
     }
 
