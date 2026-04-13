@@ -29,7 +29,7 @@ class ArtistPolicy
      */
     public function create(User $user): bool
     {
-        return $user->active && $user->role == 'admin';
+        return $user->active && $user->isAdmin();
     }
 
     /**
@@ -37,7 +37,7 @@ class ArtistPolicy
      */
     public function update(User $user, Artist $artist): bool
     {
-        return $user->active && $user->role=="admin";
+        return $user->active && $user->isAdmin();
     }
 
     /**
@@ -45,7 +45,7 @@ class ArtistPolicy
      */
     public function delete(User $user, Artist $artist): bool
     {
-        return $user->active && $user->role=="admin";
+        return $user->active && $user->isAdmin();
     }
 
     /**

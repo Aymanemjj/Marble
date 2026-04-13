@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Piece;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PiecePolicy
 {
@@ -45,7 +46,7 @@ class PiecePolicy
      */
     public function delete(User $user, Piece $piece): bool
     {
-        return $user->active && $user->id == $piece->user_id;
+        return $user->active && $user->id == $piece->user_id || $user->active &&$user->isADmin();
     }
 
     /**
