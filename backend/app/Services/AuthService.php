@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dtos\UserDTO;
 use App\Http\Resources\AuthResource;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class AuthService
 
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
-
+        $profile = Profile::create(['user_id'=> $user->id]);
         $token = $user->createToken('Marble')->plainTextToken;
 
 
@@ -47,7 +48,6 @@ class AuthService
         }
 
         $user = Auth::user();
-
         $token = $user->createToken('Marble')->plainTextToken;
 
         return response()->json([
