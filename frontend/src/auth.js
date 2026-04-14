@@ -2,11 +2,11 @@
 
 
 
-export function signIn(User) {
-  let token = User.token;
-  delete User.token;
-  
-  localStorage.setItem('user', JSON.stringify(User));
+export function signIn(res) {
+  let token = res.token;
+  let user = res.user;
+
+  localStorage.setItem('user', JSON.stringify(user));
   localStorage.setItem('token', token);
   
 }

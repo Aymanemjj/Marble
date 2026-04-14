@@ -18,8 +18,7 @@ const data = ref({
 async function submit() {
   try {
     const res = await axiosClient.post('/login', data.value);
-    console.log(res.data.data)
-    signIn(res.data.user);
+    signIn(res.data.data);
     router.push('/');
   } catch (err) {
     console.log(err)

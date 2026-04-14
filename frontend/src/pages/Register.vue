@@ -22,7 +22,7 @@ const data = ref({
 async function submit() {
     try {
         const res = await axiosClient.post('/register', data.value);
-        signIn(res.data.user);
+        signIn(res.data.data);
         router.push('/');
     } catch (err) {
         console.log(err.response.data)
