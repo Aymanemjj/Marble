@@ -5,14 +5,15 @@ import Profile from './pages/Profile.vue'
 import Artists from './pages/Artists.vue'
 import Focus from './pages/Focus.vue'
 import About from './pages/About.vue'
+import Home from './pages/Home.vue'
 
 
 const routes = [
-  { path: '/', component: Profile },
+  { path: '/', component: Home },
   { path: '/register', component: Register },
   { path: '/login', component: Login },
-
-    { path: '/artists', component: Artists },
+  { path: '/profile', component: Profile },
+  { path: '/artists', component: Artists },
   { path: '/focus', component: Focus },
   { path: '/about', component: About },
 
