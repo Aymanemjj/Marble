@@ -34,7 +34,7 @@ class ArtistDTO
         );
     }
 
-    public static function collection(array $artists): array
+    public static function collection($artists): array
     {
         $list = [];
         foreach ($artists as $artist) {

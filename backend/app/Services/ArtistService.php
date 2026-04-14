@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Dtos\ArtistDTO;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
+use Illuminate\Support\Facades\Storage;
 
 class ArtistService
 {
@@ -32,6 +33,8 @@ class ArtistService
     public function storeArtist($request)
     {
         $validated = $request->validated();
+        $validated['picture'] = $request->file('path')->store('pictures', 'public');
+        $validated['banner'] = $request->file('path')->store('banners', 'public');
 
         $artist = Artist::create($validated);
 
@@ -42,11 +45,20 @@ class ArtistService
         ]);
     }
 
-    public function updateArtist($artist_id, $request)
+    public function updateArtist(Artist $artist, $request)
     {
         $validated = $request->validated();
+        
+        if ($request->hasFile('banner')) {
+            Storage::disk('public')->delete($artist->banner);
+            $validated['banner'] = $request->file('banner')->store('banners', 'public');
+        }
 
-        $artist = Artist::find($artist_id);
+        if ($request->hasFile('picture')) {
+            Storage::disk('public')->delete($artist->picture);
+            $validated['picture'] = $request->file('picture')->store('pictures', 'public');
+        }
+
         $artist->update($validated);
         $artist->save();
 

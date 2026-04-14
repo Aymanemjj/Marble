@@ -31,8 +31,8 @@ class StoreArtistRequest extends FormRequest
             'date_of_death' => 'max:255|required|string',
             'main_medium' => 'max:255|required|string',
             'biography' => 'string|required',
-            'picture' => 'file|size:20480|required|',
-            'banner'=> 'file|required|size:20480'
+            'picture' => 'file|size:20480|mimes:jpg,jpeg,png,gif,webp|required|',
+            'banner' => 'file|required|mimes:jpg,jpeg,png,gif,webp|size:20480'
         ];
     }
 
@@ -56,9 +56,13 @@ class StoreArtistRequest extends FormRequest
 
             'picture.required' => 'A picture is required.',
             'picture.size' => 'The picture needs to be less than 20 megabytes.',
-            
+            'picture.mimes' => 'File must be an image or video (jpg, jpeg, png, gif, webp)',
+
+
             'banner.size' => 'The banner needs to be less than 20 megabytes.',
             'banner.required' => 'A banner is required.',
+            'banner.mimes' => 'File must be an image or video (jpg, jpeg, png, gif, webp)',
+
 
         ];
     }
