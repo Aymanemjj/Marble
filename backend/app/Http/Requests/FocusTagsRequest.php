@@ -24,7 +24,7 @@ class FocusTagsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tags'   => 'nullable|array',
+            'tags'   => 'nullable|array|max:10',
             'tags.*' => 'exists:tags,id',
         ];
     }
