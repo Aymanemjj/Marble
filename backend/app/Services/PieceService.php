@@ -12,9 +12,19 @@ class PieceService
 {
     public function __construct() {}
 
-    public function list()
+    public function list($request)
     {
-        $pieces = Piece::with('tags')->get();
+        $filters = $request->validated();
+        $query = Piece::whereHas('tags')->query();
+
+        if (!empty($filters['search'])) {
+            $query->where('title', 'like', "%{$filters['search']}%");
+        }
+
+        if (!empty($filters['tags'])) {
+             $query->whereIn('tags.id', $filters['tags']);
+        }
+        $pieces = $query ->get();
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',
