@@ -4,7 +4,7 @@ import authBg from '../assets/authenticationBG.jpg'
 import BasicButton from '../components/BasicButton.vue';
 import axiosClient from '../axios.js';
 import { ref } from 'vue';
-import { signIn, signOut } from '../auth.js';
+import { signIn, signOut } from '../services/auth.js';
 import router from '../router.js';
 
 

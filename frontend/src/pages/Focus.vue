@@ -1,4 +1,5 @@
 <script setup>
+import BasicInput from '../components/BasicInput.vue';
 import router from '../router';
 
 let Auth = JSON.parse(localStorage.getItem('user')) || router.push('/register')
@@ -7,6 +8,10 @@ let Auth = JSON.parse(localStorage.getItem('user')) || router.push('/register')
 
 <template>
     <main>
-        <h1>Welcome {{ Auth.firstname }} {{ Auth.lastname }} to Focus</h1>
+        <div>
+            <form action="">
+                <BasicInput :type="sel"/>
+            </form>
+        </div>
     </main>
 </template>

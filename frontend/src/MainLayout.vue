@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { signOut } from './auth';
+import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
 import BasicButton from './components/BasicButton.vue';
 
@@ -10,7 +10,7 @@ let Auth = JSON.parse(localStorage.getItem('user'))
 
 <template>
 
-    <nav>
+    <nav class="mb-8">
         <div>
             <ul class="grid grid-cols-5 gap-4 items-center text-center font-bold text-2xl">
                 <RouterLink to="/"
@@ -32,7 +32,7 @@ let Auth = JSON.parse(localStorage.getItem('user'))
 
     <RouterView />
 
-    <footer class="bg-text grid grid-cols-5 grid-rows-4 gap-4 text-bg">
+    <footer class="bg-text grid grid-cols-5 grid-rows-4 gap-4 text-bg mt-8">
 
         <div class="col-start-4 col-span-2">
             <form action="" class="grid grid-cols-2 ">

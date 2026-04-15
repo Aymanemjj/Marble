@@ -5,7 +5,7 @@ import BasicButton from '../components/BasicButton.vue';
 import { ref } from 'vue';
 import axiosClient from '../axios';
 import router from '../router';
-import { signIn } from '../auth';
+import { signIn } from '../services/auth';
 
 
 
