@@ -5,6 +5,7 @@ namespace App\Dtos;
 use App\Models\Piece;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use JsonSerializable;
 
 class PieceDTO implements JsonSerializable
@@ -47,7 +48,7 @@ class PieceDTO implements JsonSerializable
             'title'     => $this->title,
             'story'    => $this->story,
             'date'      => $this->date,
-            'path'         => Storage::url($this->path),
+            'path'         => URL::to('/') . Storage::url($this->path),
             'metadata' => $this->metadata,
             'tags'  => $this->tags,
             'creator' => [

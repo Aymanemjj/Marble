@@ -15,7 +15,7 @@ class PieceService
     public function list($request)
     {
         $filters = $request->validated();
-        $query = Piece::whereHas('tags')->query();
+        $query = Piece::query();
 
         if (!empty($filters['search'])) {
             $query->where('title', 'like', "%{$filters['search']}%");
@@ -24,7 +24,7 @@ class PieceService
         if (!empty($filters['tags'])) {
              $query->whereIn('tags.id', $filters['tags']);
         }
-        $pieces = $query ->get();
+        $pieces = $query->whereHas('tags')->inRandomOrder()->take(10)->get();
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',

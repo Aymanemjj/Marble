@@ -13,8 +13,11 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('logout');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
 
-
+    Route::get('/test', function () {
+        return response()->json(['message' => 'ok']);
+    });
     //Pieces
+    Route::get("/index", [PieceController::class, 'index'])->name('piece-all');
     Route::post('/piece/create', [PieceController::class, 'store'])->name('piece-create');
     Route::put('/piece/{piece}/update', [PieceController::class, 'update'])->name('piece-update');
     Route::delete('/piece/{piece}/delete', [PieceController::class, 'destroy'])->name('piece-delete');

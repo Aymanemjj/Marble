@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FilterRequest;
 use App\Http\Requests\StorePieceRequest;
 use App\Http\Requests\UpdatePieceRequest;
 use App\Models\Piece;
@@ -19,10 +20,10 @@ class PieceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(FilterRequest $request)
     {
         try {
-            return $this->service->list();
+            return $this->service->list($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
