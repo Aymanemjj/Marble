@@ -5,7 +5,7 @@ defineProps(['image'])
 </script>
 
 <template>
-    <div class="flex flex-col mb-4 gap-2">
+    <div class="flex flex-col flex-nowrap  mb-4 gap-2">
         <div class="cursor-pointer break-inside-avoid  relative group overflow-hidden bg-text">
             <div @click="router.push(`/piece/${image.id}`)">
                 <img :src="image.path" class="w-full h-auto transition-transform duration-300 group-hover:scale-90 group-active:scale-80">
@@ -20,7 +20,7 @@ defineProps(['image'])
                 </button>
             </div>
         </div>
-        <div class="flex gap-4">
+        <div class="flex gap-4 ">
             <div class=" aspect-square w-8">
             <img :src="image.path" alt="" class="bg-contain">
             </div>
