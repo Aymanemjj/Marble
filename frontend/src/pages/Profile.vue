@@ -1,5 +1,15 @@
 <script setup>
+import { useRoute } from 'vue-router';
 import router from '../router';
+import { onMounted, ref } from 'vue';
+import axiosClient from '../axios';
+
+const id = useRoute().params.id
+
+const USER = ref(null)
+onMounted(async()=>{
+    USER.value = (await axiosClient.get(`/creator/${id}`))
+})
 
 </script>
 
