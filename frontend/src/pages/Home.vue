@@ -37,7 +37,7 @@ const handleScroll = (e) => {
 <template>
     <main class="columns-5 gap-4 " ref="scrollComponent">
 
-        <div v-for="image in IMAGES" class="break-inside-avoid mb-4 relative group overflow-hidden bg-text">
+        <div v-for="image in IMAGES" class="">
             <PieceCard :image="image"/>
         </div>
 
