@@ -8,7 +8,7 @@ defineProps(['image'])
     <div class="flex flex-col mb-4 gap-2">
         <div class="cursor-pointer break-inside-avoid  relative group overflow-hidden bg-text">
             <div @click="router.push(`/piece/${image.id}`)">
-                <img :src="image.path" class="w-full h-auto transition-transform duration-300 group-hover:scale-90">
+                <img :src="image.path" class="w-full h-auto transition-transform duration-300 group-hover:scale-90 group-active:scale-80">
             </div>
 
             <div
@@ -26,7 +26,7 @@ defineProps(['image'])
             </div>
             <div class="flex flex-col">
                 <h2>{{ image.title }}</h2>
-                <h3> U/{{ image.creator.firstname }} {{ image.creator.firstname }}</h3>
+                <h3 @click="router.push(`/creator/${image.creator.id}`)" class="cursor-pointer hover:underline"> U/{{ image.creator.firstname }} {{ image.creator.firstname }}</h3>
             </div>
         </div>
     </div>
