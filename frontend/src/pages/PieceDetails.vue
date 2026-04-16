@@ -5,11 +5,15 @@ import Tag from '../components/Tag.vue';
 import router from '../router';
 import LoadingPD from '../components/LoadingPD.vue';
 import ContactLink from '../components/ContactLink.vue';
+import { useRoute } from 'vue-router';
 
 const PIECE = ref(null);
 const isLoading = computed(() => PIECE.value == null)
+const id = useRoute().params.id
 onMounted(async () => {
-    PIECE.value = (await axiosClient.get(`/piece/8`)).data.data.piece;
+    PIECE.value = (await axiosClient.get(`/piece/${id}`)).data.data.piece;
+    console.log(PIECE.value);
+    
 });
 
 </script>
@@ -18,9 +22,9 @@ onMounted(async () => {
     <LoadingPD v-if="isLoading"/>
     <main v-else class="flex flex-col gap-16">
         <div>
-            <div class="bg-text w-full h-fit">
-                <img src="http://localhost:8000/storage/pieces/n00J88tZSeN1LRILtG8EEODRcDLNe3a4VH2ImWgH.jpg"
-                    class="w-full h-auto">
+            <div class="bg-text w-full h-screen flex items-center align-middle">
+                <img :src="PIECE.path"
+                    class="w-full object-contain max-h-full">
             </div>
             <div class="font-extrabold flex justify-between">
                 <div class="text-2xl">
