@@ -13,9 +13,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('logout');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
 
-    Route::post('/creator/user/{id}', [AuthController::class, 'logOut'])->name('logout');
-
-    Route::post('/creator/artist/{id}', [AuthController::class, 'logOut'])->name('logout');
+    Route::get('/creator/user/{id}', [AuthController::class, 'logOut'])->name('user-profile');
+    Route::get('/creator/artist/{id}', [AuthController::class, 'logOut'])->name('artist-profile');
 
     Route::get('/test', function () {
         return response()->json(['message' => 'ok']);

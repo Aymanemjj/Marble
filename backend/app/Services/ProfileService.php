@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Dtos\CreatorDTO;
+use App\Dtos\UserDTO;
+use App\Models\Artist;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,6 +17,44 @@ class ProfileService
     public function __construct()
     {
         //
+    }
+
+    public function getUserProfile(User $user)
+    {
+
+        if (!is_null($user)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+
+        $user->load('profile');
+        return response()->json([
+            'success' => true,
+            'message' => 'User profie',
+            'data' => CreatorDTO::make($user)
+        ]);
+    }
+
+
+    public function getArtistProfile(Artist $artist)
+    {
+
+        if (!is_null($artist)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
+        }
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User profie',
+            'data' => CreatorDTO::make($artist)
+        ]);
     }
 
     public function updateProfile($request)
