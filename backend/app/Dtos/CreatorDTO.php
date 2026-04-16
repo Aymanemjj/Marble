@@ -3,6 +3,7 @@
 namespace App\Dtos;
 
 use App\Interfaces\CreatorInterface;
+use App\Models\User;
 use JsonSerializable;
 
 class CreatorDTO implements JsonSerializable
@@ -17,7 +18,8 @@ class CreatorDTO implements JsonSerializable
         private string $lastname,
         private ?string $date_of_birth,
         private ?string $date_of_death,
-        private ?string $main_medium
+        private ?string $main_medium,
+        private bool $administered,
     ) {}
 
 
@@ -32,7 +34,8 @@ class CreatorDTO implements JsonSerializable
             $creator->lastname,
             $creator->date_of_birth ?? "None provided",
             $creator->date_of_death ?? 'Still alive',
-            $creator->main_medium  ?? "None"
+            $creator->main_medium  ?? "None",
+            $creator instanceof User
         );
     }
 
