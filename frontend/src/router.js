@@ -6,17 +6,18 @@ import Artists from './pages/Artists.vue'
 import Focus from './pages/Focus.vue'
 import About from './pages/About.vue'
 import Home from './pages/Home.vue'
+import PieceDetails from './pages/PieceDetails.vue'
 
 
 const routes = [
   { path: '/', component: Home },
   { path: '/register', component: Register },
   { path: '/login', component: Login },
-  { path: '/profile', component: Profile },
+  { path: '/creator/:id', component: Profile },
   { path: '/artists', component: Artists },
   { path: '/focus', component: Focus },
   { path: '/about', component: About },
-
+  {path: '/piece/:id', component: PieceDetails, props: true},
 ]
 
 export const router = createRouter({
