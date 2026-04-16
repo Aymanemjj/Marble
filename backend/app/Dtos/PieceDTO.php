@@ -54,16 +54,7 @@ class PieceDTO implements JsonSerializable
             'path'         => URL::to('/') . Storage::url($this->path),
             'metadata' => $this->metadata,
             'tags'  => $this->tags,
-            'creator' => [
-                'id' => $this->creator->getId(),
-                'firstname'     => $this->creator->getFirstname(),
-                'middlename'    => $this->creator->getMiddlename(),
-                'lastname'      => $this->creator->getLastname(),
-                'date_of_birth' => $this->creator->getDateOfBirth(),
-                'date_of_death' => $this->creator->getDateOfDeath(),
-                'main_medium' => $this->creator->getMainMedium(),
-
-            ]
+            'creator' => $this->creator
         ];
     }
 

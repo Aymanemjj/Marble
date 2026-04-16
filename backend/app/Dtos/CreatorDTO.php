@@ -3,7 +3,10 @@
 namespace App\Dtos;
 
 use App\Interfaces\CreatorInterface;
+use App\Models\Artist;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use JsonSerializable;
 
 class CreatorDTO implements JsonSerializable
@@ -19,6 +22,9 @@ class CreatorDTO implements JsonSerializable
         private ?string $date_of_birth,
         private ?string $date_of_death,
         private ?string $main_medium,
+        private string $picture,
+        private string $banner,
+        private string $biography,
         private bool $administered,
     ) {}
 
@@ -27,16 +33,35 @@ class CreatorDTO implements JsonSerializable
 
     public static function make(CreatorInterface $creator): self
     {
-        return new self(
-            $creator->id,
-            $creator->firstname,
-            $creator->middlename ?? "None",
-            $creator->lastname,
-            $creator->date_of_birth ?? "None provided",
-            $creator->date_of_death ?? 'Still alive',
-            $creator->main_medium  ?? "None",
-            $creator instanceof User
-        );
+        if ($creator instanceof Artist) {
+            return new self(
+                $creator->id,
+                $creator->firstname,
+                $creator->middlename ?? "None",
+                $creator->lastname,
+                $creator->date_of_birth ?? "None provided",
+                $creator->date_of_death ?? 'Still alive',
+                $creator->main_medium  ?? "None",
+                $creator->picture,
+                $creator->banner,
+                $creator->biography,
+                true
+            );
+        } else {
+            return new self(
+                $creator->id,
+                $creator->firstname,
+                $creator->middlename ?? "None",
+                $creator->lastname,
+                $creator->date_of_birth ?? "None provided",
+                $creator->date_of_death ?? 'Still alive',
+                $creator->main_medium  ?? "None",
+                $creator->profile->picture ?? URL::to('/') . Storage::url('pictures/default.jpg'),
+                $creator->profile->banner ?? URL::to('/') . Storage::url('pictures/default.jpg'),
+                $creator->profile->biography ?? 'None provided',
+                false
+            );
+        }
     }
 
     public static function collection($creators): array
@@ -50,7 +75,7 @@ class CreatorDTO implements JsonSerializable
 
     public function jsonSerialize(): array
     {
-        return [
+        return  [
             'id' => $this->id,
             'firstname'     => $this->firstname,
             'middlename'    => $this->middlename,
@@ -58,6 +83,11 @@ class CreatorDTO implements JsonSerializable
             'date_of_birth' => $this->date_of_birth,
             'date_of_death' => $this->date_of_death,
             'main_medium'   => $this->main_medium,
+            'profile'=>[
+                'picture'=>$this->picture,
+                'banner'=> $this->banner,
+                'biography' => $this->biography,
+            ]
         ];
     }
 
