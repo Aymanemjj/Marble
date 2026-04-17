@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 import router from "../router";
 import { computed, onMounted, ref } from "vue";
 import axiosClient from "../axios";
-import LoadingProfile from "../components/LoadingProfile.vue";
+import Loading from "../components/Loading.vue";
 
 const id = useRoute().params.id;
 const type = useRoute().params.creatorType;
@@ -22,7 +22,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LoadingProfile v-if="isLoading" />
+  <Loading v-if="isLoading" />
   <main v-else class="grid grid-cols-5 auto-rows-[25vh] gap-4">
     <div class="h-full aspect-square">
       <img :src="CREATOR.profile.picture" alt="" class="">
@@ -65,7 +65,8 @@ onMounted(async () => {
     </div>
 
     <div class="row-start-8 col-start-4 col-span-2">
-      <button @click="router.push(`/creator/${type}/${id}/gallery`)" class="border-2 border-text text-2xl font-bold h-1/4 text-left w-full cursor-pointer hover:bg-text hover:text-bg hover:border-bg pl-2">
+      <button @click="router.push(`/creator/${type}/${id}/gallery`)"
+        class="border-2 border-text text-2xl font-bold h-1/4 text-left w-full cursor-pointer hover:bg-text hover:text-bg hover:border-bg pl-2">
         View full gallery
       </button>
 

@@ -7,6 +7,7 @@ import Focus from './pages/Focus.vue'
 import About from './pages/About.vue'
 import Home from './pages/Home.vue'
 import PieceDetails from './pages/PieceDetails.vue'
+import Gallery from './pages/Gallery.vue'
 
 
 const routes = [
@@ -14,10 +15,12 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/login', component: Login },
   { path: '/creator/:creatorType/:id', component: Profile },
+  { path: '/creator/:creatorType/:id/gallery', component: Gallery },
   { path: '/artists', component: Artists },
   { path: '/focus', component: Focus },
   { path: '/about', component: About },
-  {path: '/piece/:id', component: PieceDetails, props: true},
+  { path: '/piece/:id', component: PieceDetails, props: true },
+
 ]
 
 export const router = createRouter({

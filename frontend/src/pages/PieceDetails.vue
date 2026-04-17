@@ -3,9 +3,9 @@ import { computed, onMounted, reactive, ref, watchEffect } from "vue";
 import axiosClient from "../axios";
 import Tag from "../components/Tag.vue";
 import router from "../router";
-import LoadingPD from "../components/LoadingPD.vue";
 import ContactLink from "../components/ContactLink.vue";
 import { useRoute } from "vue-router";
+import Loading from "../components/Loading.vue";
 
 const PIECE = ref(null);
 const isLoading = computed(() => PIECE.value == null);
@@ -16,7 +16,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LoadingPD v-if="isLoading" />
+  <Loading v-if="isLoading" />
   <main v-else class="flex flex-col gap-16">
     <div>
       <div class="bg-text w-full h-screen flex items-center align-middle">
@@ -33,8 +33,7 @@ onMounted(async () => {
       <div class="flex justify-between">
         <div>
           <button
-            class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer"
-          >
+            class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer">
             Save
           </button>
         </div>
@@ -47,24 +46,19 @@ onMounted(async () => {
     <div class="grid grid-cols-5 gap-4">
       <div class="flex flex-col justify-between">
         <div>
-          <img
-            class="w-fit aspect-square"
-            src="http://localhost:8000/storage/pieces/n00J88tZSeN1LRILtG8EEODRcDLNe3a4VH2ImWgH.jpg"
-            alt=""
-          />
-          <h3
-            class="font-extrabold text-2xl cursor-pointer hover:underline"
-            @click="router.push(`/creator/${PIECE.creator.id}`)"
-          >
+          <img class="w-fit aspect-square"
+            src="http://localhost:8000/storage/pieces/n00J88tZSeN1LRILtG8EEODRcDLNe3a4VH2ImWgH.jpg" alt="" />
+          <h3 v-if="PIECE.administered" @click="router.push(`/creator/artist/${PIECE.creator.id}`)"
+            class="cursor-pointer hover:underline font-bold text-2xl">
+            A/{{ PIECE.creator.firstname }} {{ PIECE.creator.lastname }}
+          </h3>
+          <h3 v-else @click="router.push(`/creator/user/${PIECE.creator.id}`)" class="cursor-pointer hover:underline font-bold text-2xl">
             U/{{ PIECE.creator.firstname }} {{ PIECE.creator.lastname }}
           </h3>
+
         </div>
         <div class="flex flex-col text-2xl font-bold">
-          <ContactLink
-            v-for="contact in PIECE.creator.contacts"
-            :href="contact.link"
-            :name="contact.name"
-          />
+          <ContactLink v-for="contact in PIECE.creator.contacts" :href="contact.link" :name="contact.name" />
         </div>
       </div>
 
