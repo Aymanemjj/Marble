@@ -32,10 +32,18 @@ defineProps(["image"]);
       <div class="flex flex-col">
         <h2>{{ image.title }}</h2>
         <h3
-          @click="router.push(`/creator/${image.creator.id}`)"
+          v-if="image.administered"
+          @click="router.push(`/creator/artist/${image.creator.id}`)"
           class="cursor-pointer hover:underline"
         >
-          U/{{ image.creator.firstname }} {{ image.creator.firstname }}
+          A/{{ image.creator.firstname }} {{ image.creator.lastname }}
+        </h3>
+        <h3
+          v-else
+          @click="router.push(`/creator/user/${image.creator.id}`)"
+          class="cursor-pointer hover:underline"
+        >
+          U/{{ image.creator.firstname }} {{ image.creator.lastname }}
         </h3>
       </div>
     </div>

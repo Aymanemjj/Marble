@@ -9,6 +9,7 @@ const scrollComponent = ref(null);
 
 const loadMorePieces = async () => {
   let newPieces = await loadPieces();
+
   IMAGES.value.push(...newPieces);
 };
 
