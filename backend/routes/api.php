@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CollageController;
 use App\Http\Controllers\Api\PieceController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,8 +14,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('logout');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
 
-    Route::get('/creator/user/{id}', [AuthController::class, 'logOut'])->name('user-profile');
-    Route::get('/creator/artist/{id}', [AuthController::class, 'logOut'])->name('artist-profile');
+    Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
+    Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
 
     Route::get('/test', function () {
         return response()->json(['message' => 'ok']);

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Dtos\CreatorDTO;
-use App\Dtos\UserDTO;
 use App\Models\Artist;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +21,7 @@ class ProfileService
     public function getUserProfile(User $user)
     {
 
-        if (!is_null($user)) {
+        if (is_null($user)) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found'
@@ -42,17 +41,17 @@ class ProfileService
     public function getArtistProfile(Artist $artist)
     {
 
-        if (!is_null($artist)) {
+        if (is_null($artist)) {
             return response()->json([
                 'success' => false,
-                'message' => 'User not found'
+                'message' => 'Artist not found'
             ], 404);
         }
 
 
         return response()->json([
             'success' => true,
-            'message' => 'User profie',
+            'message' => 'Artist profile',
             'data' => CreatorDTO::make($artist)
         ]);
     }
