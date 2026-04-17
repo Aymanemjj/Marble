@@ -22,8 +22,8 @@ class CreatorDTO implements JsonSerializable
         private ?string $date_of_birth,
         private ?string $date_of_death,
         private ?string $main_medium,
-        private string $picture,
-        private string $banner,
+        private ?string $picture,
+        private ?string $banner,
         private string $biography,
         private bool $administered,
     ) {}
@@ -42,9 +42,9 @@ class CreatorDTO implements JsonSerializable
                 $creator->date_of_birth ?? "None provided",
                 $creator->date_of_death ?? 'Still alive',
                 $creator->main_medium  ?? "None",
-                $creator->picture,
-                $creator->banner,
-                $creator->biography,
+                $creator->picture ?? URL::to('/') . Storage::url('profiles/default.jpg'),
+                $creator->banner ?? URL::to('/') . Storage::url('profiles/default.jpg'),
+                $creator->biography ?? 'None provided',
                 true
             );
         } else {
@@ -56,8 +56,8 @@ class CreatorDTO implements JsonSerializable
                 $creator->date_of_birth ?? "None provided",
                 $creator->date_of_death ?? 'Still alive',
                 $creator->main_medium  ?? "None",
-                $creator->profile->picture ?? URL::to('/') . Storage::url('pictures/default.jpg'),
-                $creator->profile->banner ?? URL::to('/') . Storage::url('pictures/default.jpg'),
+                $creator->profile->picture ?? URL::to('/') . Storage::url('profiles/default.jpg'),
+                $creator->profile->banner ?? URL::to('/') . Storage::url('profiles/default.jpg'),
                 $creator->profile->biography ?? 'None provided',
                 false
             );
@@ -83,6 +83,7 @@ class CreatorDTO implements JsonSerializable
             'date_of_birth' => $this->date_of_birth,
             'date_of_death' => $this->date_of_death,
             'main_medium'   => $this->main_medium,
+            'administered' => $this->administered,
             'profile'=>[
                 'picture'=>$this->picture,
                 'banner'=> $this->banner,
