@@ -50,10 +50,10 @@ class ArtistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($artist_id)
+    public function show(Artist $artist)
     {
         try {
-            return $this->service->getArtist($artist_id);
+            return $this->service->getArtist($artist);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CollageController;
 use App\Http\Controllers\Api\PieceController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\Api\FollowingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -49,6 +50,15 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/follow/artist/{id}', [FollowingController::class, 'followArtist'])->name('follow-artist');
     Route::get('/unfollow/user/{id}', [FollowingController::class, 'unfollowUser'])->name('unfollow-user');
     Route::get('/unfollow/artist/{id}', [FollowingController::class, 'unfollowArtist'])->name('unfollow-artist');
+
+
+
+    //Artist Routes
+    Route::get('/artists', [ArtistController::class, 'index'])->name('artist-index');
+    Route::post('/admin/artist/create', [ArtistController::class, 'store'])->name('artist-create');
+    Route::get('/artist/{artist}', [ArtistController::class, 'store'])->name('artist-details');
+    Route::put('/admin/artist/{artist}/update', [ArtistController::class, 'update'])->name('artist-update');
+    Route::put('/admin/artist/{artist}/delete', [ArtistController::class, 'update'])->name('artist-update');
 
     
 });

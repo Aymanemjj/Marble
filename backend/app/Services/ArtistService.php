@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Dtos\ArtistDTO;
+use App\Dtos\CreatorDTO;
+use App\Dtos\PieceDTO;
 use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,7 @@ class ArtistService
         return response()->json([
             'success' => true,
             'message' => 'All artists',
-            'data' => ['artists' => ArtistDTO::collection($artists)]
+            'data' => ['artists' => CreatorDTO::collection($artists)]
         ]);
     }
 
@@ -41,7 +42,7 @@ class ArtistService
         return response()->json([
             'success' => true,
             'message' => 'Artist saved',
-            'data' => ['artist' => ArtistDTO::make($artist)]
+            'data' => ['artist' => CreatorDTO::make($artist)]
         ]);
     }
 
@@ -65,13 +66,12 @@ class ArtistService
         return response()->json([
             'sucsess' => true,
             'message' => "$artist->firstname $artist->lastname has ben updated",
-            'data' => ['artist' => ArtistDTO::make($artist)]
+            'data' => ['artist' => CreatorDTO::make($artist)]
         ]);
     }
 
-    public function getArtist($artist_id)
+    public function getArtist($artist)
     {
-        $artist = Artist::find($artist_id);
         $pieces = null;
 
         if (!$artist) {
@@ -84,7 +84,7 @@ class ArtistService
         return response()->json([
             'sucsess' => true,
             'message' => "$artist->firstname $artist->lastname has ben found",
-            'data' => ['artist' => ArtistDTO::make($artist), 'pieces' => PieceResource::collection($pieces)]
+            'data' => ['artist' => CreatorDTO::make($artist), 'pieces' => PieceDTO::collection($pieces)]
         ]);
     }
 
