@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
 class StorePieceRequest extends FormRequest
 {
@@ -15,7 +16,8 @@ class StorePieceRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+
+        $rules =  [
             'title'        => 'required|string',
             'story'        => 'required|string',
             'date'         => 'required|date',
@@ -24,11 +26,15 @@ class StorePieceRequest extends FormRequest
             'tags'   => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ];
+
+        if (Auth::user()->isAdmin()) $rules['artist'] = 'required|exists:artists,id';
+
+        return  $rules;
     }
 
     public function messages(): array
     {
-        return [
+        $messages = [
             'title.required'        => 'A title is required',
             'title.string'          => 'Title must be a string',
             'story.required'        => 'A story is required',
@@ -42,6 +48,13 @@ class StorePieceRequest extends FormRequest
             'metadata.string'       => 'Metadata must be a string',
             'tags.*.exists' => 'One or more selected tags do not exist.',
         ];
+
+        if (Auth::user()->isAdmin()) {
+            $messages['artist.required'] = 'Artist field is requierd';
+            $messages['artist.exists'] = 'Artist doesn\'t exists';
+        }
+
+        return $messages;
     }
 
     public function failedValidation(Validator $validator)
