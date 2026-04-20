@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CollageController;
+use App\Http\Controllers\Api\FocusController;
 use App\Http\Controllers\Api\PieceController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\FollowingController;
@@ -61,6 +62,9 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::put('/admin/artist/{artist}/delete', [ArtistController::class, 'update'])->name('artist-update');
 
     
+    //Focus
+    Route::post('/focus/pieces',[FocusController::class, 'getPieces'])->name('focus-pieces');
+
 });
 
 
