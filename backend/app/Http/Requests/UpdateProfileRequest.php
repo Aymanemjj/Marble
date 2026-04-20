@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -42,5 +44,17 @@ class UpdateProfileRequest extends FormRequest
 
             'biography.string' => 'The biography must be a valid text string.',
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors();
+        $response = response()->json([
+            "success" => false,
+            'message' => 'Erreur de validation',
+            'error' => $errors->messages(),
+        ], 422);
+
+        throw new HttpResponseException($response);
     }
 }
