@@ -31,8 +31,8 @@ class StoreArtistRequest extends FormRequest
             'date_of_death' => 'max:255|required|string',
             'main_medium' => 'max:255|required|string',
             'biography' => 'string|required',
-            'picture' => 'file|size:20480|mimes:jpg,jpeg,png,gif,webp|required|',
-            'banner' => 'file|required|mimes:jpg,jpeg,png,gif,webp|size:20480'
+            'picture' => 'image|size:20480|mimes:jpg,jpeg,png,gif,webp|required|',
+            'banner' => 'image|required|mimes:jpg,jpeg,png,gif,webp|size:20480'
         ];
     }
 
