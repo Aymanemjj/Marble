@@ -16,7 +16,7 @@ let Auth = JSON.parse(localStorage.getItem('user'))
                 <RouterLink to="/"
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     Marble</RouterLink>
-                <RouterLink to="/focus" class="cursor-pointer hover:underline">Focus</RouterLink>
+                <RouterLink to="/focus/settings" class="cursor-pointer hover:underline">Focus</RouterLink>
                 <RouterLink to="/artists" class="cursor-pointer hover:underline">Artists</RouterLink>
                 <RouterLink to="/about" class="cursor-pointer hover:underline">About</RouterLink>
                 <RouterLink v-if="!Auth" to="/register"
