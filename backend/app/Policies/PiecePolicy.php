@@ -30,7 +30,7 @@ class PiecePolicy
      */
     public function create(User $user): bool
     {
-        return $user->active && $user->role == 'user';
+        return $user->active;
     }
 
     /**
@@ -38,7 +38,7 @@ class PiecePolicy
      */
     public function update(User $user, Piece $piece): bool
     {
-        return $user->active && $user->id == $piece->user_id;
+        return $user->active && $user->id == $piece->creator_id || $user->isAdmin() && $piece->administered && $user->active;
     }
 
     /**
@@ -46,7 +46,7 @@ class PiecePolicy
      */
     public function delete(User $user, Piece $piece): bool
     {
-        return $user->active && $user->id == $piece->user_id || $user->active &&$user->isADmin();
+        return $user->active && $user->id == $piece->creator_id  || $user->active && $user->isAdmin();
     }
 
     /**

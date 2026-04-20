@@ -72,7 +72,7 @@ class PieceController extends Controller
      */
     public function update(UpdatePieceRequest $request, Piece $piece)
     {
-        $this->
+        $this->authorize('update', $piece);
         try {
             return $this->service->update($piece, $request);
         } catch (Exception $e) {
@@ -88,6 +88,7 @@ class PieceController extends Controller
      */
     public function destroy(Piece $piece)
     {
+        $this->authorize('delete', $piece);
         try {
             return $this->service->delete($piece);
         } catch (Exception $e) {
