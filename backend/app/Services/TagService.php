@@ -27,9 +27,10 @@ class TagService
         ]);
     }
 
-    public function create(array $data)
+    public function create($request)
     {
-        $tag = Tag::create($data);
+        $validated = $request->validated();
+        $tag = Tag::create($validated);
         return response()->json([
             'success' => true,
             'message' => 'Tag created successfully',
@@ -37,9 +38,10 @@ class TagService
         ], 201);
     }
 
-    public function update(Tag $tag, array $data)
+    public function update(Tag $tag, $request)
     {
-        $tag->update($data);
+        $validated = $request->validated();
+        $tag->update($validated);
         return response()->json([
             'success' => true,
             'message' => 'Tag updated successfully',
@@ -53,7 +55,6 @@ class TagService
         return response()->json([
             'success' => true,
             'message' => 'Tag deleted successfully',
-            'data'    => []
         ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\FocusController;
 use App\Http\Controllers\Api\PieceController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\FollowingController;
+use App\Http\Controllers\Api\TagController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -58,10 +59,15 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::put('/admin/artist/{artist}/update', [ArtistController::class, 'update'])->name('artist-update');
     Route::put('/admin/artist/{artist}/delete', [ArtistController::class, 'update'])->name('artist-update');
 
-    
-    //Focus
-    Route::post('/focus/pieces',[FocusController::class, 'getPieces'])->name('focus-pieces');
 
+    //Focus
+    Route::post('/focus/pieces', [FocusController::class, 'getPieces'])->name('focus-pieces');
+
+    //Tags
+    Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
+    Route::post('/admin/tags/create', [TagController::class, 'store'])->name('tags-create');
+    Route::patch('/admin/tags/{tag}/update', [TagController::class, 'update'])->name('tags-update');
+    Route::delete('/admin/tags/{tag}/delete', [TagController::class, 'delete'])->name('tags-delete');
 });
 
 

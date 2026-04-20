@@ -35,7 +35,7 @@ class TagPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Tag $tag): bool
+    public function update(User $user): bool
     {
         return $user->active && $user->role == 'admin';
     }
@@ -43,7 +43,7 @@ class TagPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Tag $tag): bool
+    public function delete(User $user): bool
     {
         return $user->active && $user->role == 'admin';
     }
