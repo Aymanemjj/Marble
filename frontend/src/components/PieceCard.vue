@@ -9,8 +9,8 @@ defineProps(["image"]);
   <div class="flex flex-col flex-nowrap mb-4 gap-2">
     <PieceCover :piece="image" />  
     <div class="flex gap-4">
-      <div class="aspect-square w-8">
-        <img :src="image.path" alt="" class="bg-contain" />
+      <div class="aspect-square w-12">
+        <img :src="image.creator.profile.picture" alt="" class="bg-contain" />
       </div>
       <div class="flex flex-col">
         <h2>{{ image.title }}</h2>
