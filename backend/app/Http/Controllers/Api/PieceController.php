@@ -9,10 +9,11 @@ use App\Http\Requests\UpdatePieceRequest;
 use App\Models\Piece;
 use App\Services\PieceService;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PieceController extends Controller
 {
-
+    use AuthorizesRequests;
 
     public function __construct(private PieceService $service) {}
 
@@ -38,6 +39,7 @@ class PieceController extends Controller
      */
     public function store(StorePieceRequest $request)
     {
+        $this->authorize('create');
         try {
             return $this->service->create($request);
         } catch (Exception $e) {
@@ -70,6 +72,7 @@ class PieceController extends Controller
      */
     public function update(UpdatePieceRequest $request, Piece $piece)
     {
+        $this->
         try {
             return $this->service->update($piece, $request);
         } catch (Exception $e) {

@@ -22,7 +22,7 @@ class PieceService
         }
 
         if (!empty($filters['tags'])) {
-             $query->whereIn('tags.id', $filters['tags']);
+            $query->whereIn('tags.id', $filters['tags']);
         }
         $pieces = $query->whereHas('tags')->inRandomOrder()->take(10)->get();
         return response()->json([
@@ -45,8 +45,15 @@ class PieceService
     public function create($request)
     {
         $validated = $request->validated();
+
+        if (Auth::user()->isAdmin()) {
+            $validated['creator_id'] = $validated['artist'];
+            $validated['administered'] = true;
+        } else {
+            $validated['creator_id'] = Auth::id();
+        }
+
         $validated['path'] = $request->file('path')->store('pieces', 'public');
-        $validated['user_id'] = Auth::id();
         $tags = $validated['tags'] ?? [];
         unset($validated['tags']);
         $piece = Piece::create($validated);
@@ -63,6 +70,11 @@ class PieceService
     public function update(Piece $piece, $request)
     {
         $validated = $request->validated();
+
+        if (Auth::user()->isAdmin()) {
+            $validated['creator_id'] = $validated['artist'];
+        }
+
         if ($request->hasFile('path')) {
             Storage::disk('public')->delete($piece->path);
             $validated['path'] = $request->file('path')->store('pieces', 'public');
