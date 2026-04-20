@@ -20,9 +20,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
     Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
 
-    Route::get('/test', function () {
-        return response()->json(['message' => 'ok']);
-    });
+
     //Pieces
     Route::get("/index", [PieceController::class, 'index'])->name('piece-all');
     Route::post('/piece/create', [PieceController::class, 'store'])->name('piece-create');
@@ -57,7 +55,6 @@ Route::middleware("auth:sanctum")->group(function () {
     //Artist Routes
     Route::get('/artists', [ArtistController::class, 'index'])->name('artist-index');
     Route::post('/admin/artist/create', [ArtistController::class, 'store'])->name('artist-create');
-    Route::get('/artist/{artist}', [ArtistController::class, 'store'])->name('artist-details');
     Route::put('/admin/artist/{artist}/update', [ArtistController::class, 'update'])->name('artist-update');
     Route::put('/admin/artist/{artist}/delete', [ArtistController::class, 'update'])->name('artist-update');
 
