@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CollageController;
 use App\Http\Controllers\Api\PieceController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\FollowingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,6 +38,19 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/collage/delete', [CollageController::class, 'destroy'])->name('collage-delete');
     Route::post('/collage/{collage}/add/{piece}', [CollageController::class, 'addPieceToCollage'])->name('collage-add');
     Route::post('/collage/{collage}/remove/{piece}', [CollageController::class, 'removePieceFromCollage'])->name('collage-remove');
+
+
+
+    //Following System
+
+    Route::get('/profile/followers', [FollowingController::class, 'indexFollowers'])->name('user-followers');
+    Route::get('/profile/following', [FollowingController::class, 'indexFollowing'])->name('user-following');
+    Route::get('/follow/user/{id}', [FollowingController::class, 'followUser'])->name('follow-user');
+    Route::get('/follow/artist/{id}', [FollowingController::class, 'followArtist'])->name('follow-artist');
+    Route::get('/unfollow/user/{id}', [FollowingController::class, 'unfollowUser'])->name('unfollow-user');
+    Route::get('/unfollow/artist/{id}', [FollowingController::class, 'unfollowArtist'])->name('unfollow-artist');
+
+    
 });
 
 
