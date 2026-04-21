@@ -16,15 +16,31 @@ class PieceService
     {
         $filters = $request->validated();
         $query = Piece::query();
-
+        $searched = false;
         if (!empty($filters['search'])) {
-            $query->where('title', 'like', "%{$filters['search']}%");
+            $query->where(function ($q) use ($filters) {
+                $q->where('title', 'like', "%{$filters['search']}%")
+                    ->orWhereHas('artistOwner', function ($q) use ($filters) {
+                        $q->where('firstname', 'like', "%{$filters['search']}%")
+                            ->orWhere('lastname', 'like', "%{$filters['search']}%");
+                    })
+                    ->orWhereHas('userOwner', function ($q) use ($filters) {
+                        $q->where('firstname', 'like', "%{$filters['search']}%")
+                            ->orWhere('lastname', 'like', "%{$filters['search']}%");
+                    });
+            });
+            $searched = true;
         }
 
         if (!empty($filters['tags'])) {
             $query->whereIn('tags.id', $filters['tags']);
+            $searched = true;
         }
-        $pieces = $query->whereHas('tags')->inRandomOrder()->take(10)->get();
+        if ($searched) {
+            $pieces = $query->whereHas('tags')->inRandomOrder()->get();
+        } else {
+            $pieces = $query->whereHas('tags')->inRandomOrder()->take(10)->get();
+        }
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',
