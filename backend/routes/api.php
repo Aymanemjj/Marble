@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ArtistController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CollageController;
@@ -15,7 +16,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
 
     //Authentication
-    Route::get('/profile', [AuthController::class, 'profile'])->name('logout');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
 
     Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
@@ -35,10 +36,11 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile/collage', [CollageController::class, 'privateIndex'])->name('collage-privateList');
     Route::get('/collage/{collage}', [CollageController::class, 'show'])->name('collage-show');
     Route::post('/collage/create', [CollageController::class, 'store'])->name('collage-create');
-    Route::put('/collage/update', [CollageController::class, 'update'])->name('collage-update');
-    Route::post('/collage/delete', [CollageController::class, 'destroy'])->name('collage-delete');
+    Route::put('/collage/{collage}/update', [CollageController::class, 'update'])->name('collage-update');
+    Route::delete('/collage/{collage}/delete', [CollageController::class, 'destroy'])->name('collage-delete');
+    //Collage pieces
     Route::post('/collage/{collage}/add/{piece}', [CollageController::class, 'addPieceToCollage'])->name('collage-add');
-    Route::post('/collage/{collage}/remove/{piece}', [CollageController::class, 'removePieceFromCollage'])->name('collage-remove');
+    Route::delete('/collage/{collage}/remove/{piece}', [CollageController::class, 'removePieceFromCollage'])->name('collage-remove-piece');
 
 
 
@@ -55,9 +57,6 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Artist Routes
     Route::get('/artists', [ArtistController::class, 'index'])->name('artist-index');
-    Route::post('/admin/artist/create', [ArtistController::class, 'store'])->name('artist-create');
-    Route::put('/admin/artist/{artist}/update', [ArtistController::class, 'update'])->name('artist-update');
-    Route::put('/admin/artist/{artist}/delete', [ArtistController::class, 'update'])->name('artist-update');
 
 
     //Focus
@@ -65,12 +64,25 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Tags
     Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
+});
+
+Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::post('/admin/tags/create', [TagController::class, 'store'])->name('tags-create');
     Route::patch('/admin/tags/{tag}/update', [TagController::class, 'update'])->name('tags-update');
     Route::delete('/admin/tags/{tag}/delete', [TagController::class, 'delete'])->name('tags-delete');
+
+
+    //Artist 
+    Route::post('/admin/artist/create', [ArtistController::class, 'store'])->name('artist-create');
+    Route::patch('/admin/artist/{artist}/update', [ArtistController::class, 'update'])->name('artist-update');
+    Route::delete('/admin/artist/{artist}/delete', [ArtistController::class, 'destroy'])->name('artist-destroy');
+
+
+    //Administration
+    Route::get('/admin/stats', [AdminController::class, 'statistics'])->name('admin-stats');
+    Route::patch('/admin/users/{user}/ban', [AdminController::class, 'banUser'])->name('admin-ban');
+    Route::patch('/admin/users/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin-unban');
 });
-
-
 
 //Authentication
 Route::post('/register', [AuthController::class, 'register'])->name('register');
