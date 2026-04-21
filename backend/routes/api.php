@@ -22,6 +22,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
     Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
 
+    Route::get('/creator/artist/{artist}/gallery', [ProfileController::class, 'artistGallery'])->name('artist-gallery');
+    Route::get('/creator/user/{user}/gallery', [ProfileController::class, 'userGallery'])->name('user-gallery');
 
     //Pieces
     Route::get("/index", [PieceController::class, 'index'])->name('piece-all');

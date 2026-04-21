@@ -32,6 +32,19 @@ class ProfileController extends Controller
         }
     }
 
+    public function userGallery(User $user)
+    {
+        try {
+            return $this->service->getUserGallery($user);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
     public function artistProfile(Artist $artist)
     {
         try {
@@ -44,6 +57,18 @@ class ProfileController extends Controller
         }
     }
 
+
+    public function artistGallery(Artist $artist)
+    {
+        try {
+            return $this->service->getArtistGallery($artist);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
     /**
      * Update the specified resource in storage.
      */
