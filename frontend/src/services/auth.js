@@ -1,3 +1,4 @@
+import axiosClient from "../axios";
 
 
 
@@ -12,9 +13,9 @@ export function signIn(res) {
 }
 
 
-export function signOut() {
+export async function signOut() {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    
+    await axiosClient.post('/logout')
     location.reload();
 }
