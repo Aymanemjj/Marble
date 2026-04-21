@@ -12,7 +12,7 @@ import FocusPiece from './pages/FocusPiece.vue'
 
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', component: Home, name:'Home' , props: true},
   { path: '/register', component: Register },
   { path: '/login', component: Login },
   { path: '/creator/:creatorType/:id', component: Profile },

@@ -2,19 +2,34 @@
 import { RouterView } from 'vue-router';
 import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
-import BasicButton from './components/BasicButton.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import router from './router';
 
 let Auth = JSON.parse(localStorage.getItem('user'))
 
 const open = ref(false)
+const search = ref(false)
+const data = ref({
+    search : null,
+    tags : [null]
+})
 
+function filter(){
+    
+    router.push({
+        name:'Home',
+        query: {
+            search : data.value.search,
+            tags: data.value.tags
+        }
+    })
+}
 
 </script>
 
 <template>
 
-    <nav class="mb-8">
+    <nav class="mb-8 sticky top-0 z-50 bg-bg">
         <div>
             <ul class="grid grid-cols-5 gap-4 items-center text-center font-bold text-2xl overflow-visible z-50">
                 <RouterLink to="/"
@@ -22,15 +37,41 @@ const open = ref(false)
                     Marble</RouterLink>
                 <RouterLink to="/focus/settings" class="cursor-pointer hover:underline">Focus</RouterLink>
                 <RouterLink to="/artists" class="cursor-pointer hover:underline">Artists</RouterLink>
-                <RouterLink to="/about" class="cursor-pointer hover:underline">About</RouterLink>
+
+
+                <button class="cursor-pointer hover:underline z-50 relative h-full" @click="search = true"
+                    @mouseleave="search = false">
+
+                    Search
+                    <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200 bg-bg"
+                        :class="search ? 'scal-y-100' : 'scale-y-0'">
+                        <form @submit.prevent="filter()" class="p-2 flex flex-col gap-2">
+                            <input type="search" name="search" id="search" class="bg-asscent p-2"
+                                placeholder="Search ..." v-model="data.search">
+                            <div class="text-left">
+                                <label for="tags">Tags :</label>
+                                <select name="tags" id="tags" class="bg-asscent w-full p-2" v-model="data.tags">
+                                    <option value=""></option>
+                                    <option value="test">test</option>
+                                    <option value="test2">test2</option>
+                                    <option value="test3">test3</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2 w-full">
+                                <button type="submit" class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">Filter</button>
+                                <input type="reset" class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">
+                            </div>
+                        </form>
+                    </div>
+                </button>
+
+
                 <RouterLink v-if="!Auth" to="/register"
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     JoinUs</RouterLink>
 
 
-                <button v-else
-                @mouseenter="open=true"
-                @mouseleave="open=false"
+                <button v-else @mouseenter="open = true" @mouseleave="open = false"
                     class="z-50 relative border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:underline">
                     You
                     <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200"
