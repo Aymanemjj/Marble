@@ -42,7 +42,7 @@ const handleScroll = (e) => {
 
     <main class="columns-5 gap-4" ref="scrollComponent">
         <div v-for="piece in GALLERY" class="">
-            <PieceCover :image="piece" />
+            <PieceCover :piece="piece" />
         </div>
     </main>
 </template>
