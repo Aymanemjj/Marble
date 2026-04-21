@@ -3,8 +3,12 @@ import { RouterView } from 'vue-router';
 import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
 import BasicButton from './components/BasicButton.vue';
+import { ref } from 'vue';
 
 let Auth = JSON.parse(localStorage.getItem('user'))
+
+const open = ref(false)
+
 
 </script>
 
@@ -12,7 +16,7 @@ let Auth = JSON.parse(localStorage.getItem('user'))
 
     <nav class="mb-8">
         <div>
-            <ul class="grid grid-cols-5 gap-4 items-center text-center font-bold text-2xl">
+            <ul class="grid grid-cols-5 gap-4 items-center text-center font-bold text-2xl overflow-visible z-50">
                 <RouterLink to="/"
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     Marble</RouterLink>
@@ -22,9 +26,28 @@ let Auth = JSON.parse(localStorage.getItem('user'))
                 <RouterLink v-if="!Auth" to="/register"
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     JoinUs</RouterLink>
-                <button v-else v-on:click="signOut()"
-                    class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
-                    Log Out
+
+
+                <button v-else
+                @mouseenter="open=true"
+                @mouseleave="open=false"
+                    class="z-50 relative border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:underline">
+                    You
+                    <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200"
+                        :class="open ? 'scal-y-100' : 'scale-y-0'">
+                        <ul>
+                            <li class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                                <RouterLink to="/profile">Profile</RouterLink>
+                            </li>
+
+                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5">
+                                <RouterLink to="/settings">Settings</RouterLink>
+                            </li>
+
+                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5"><button
+                                    @click="signOut()">LogOut</button></li>
+                        </ul>
+                    </div>
                 </button>
             </ul>
         </div>
