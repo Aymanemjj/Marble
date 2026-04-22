@@ -31,7 +31,7 @@ class FocusService
         $Rtags = $validated['tags'];
 
         $pieces = Piece::whereHas('tags', function ($query) use ($Rtags) {
-            $query->whereIn('tags.id', $Rtags);
+            $query->whereIn('tags.name', $Rtags);
         })->inRandomOrder()->take(10)->get();
 
         return response()->json([
