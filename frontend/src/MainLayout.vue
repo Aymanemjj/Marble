@@ -85,7 +85,7 @@ function filter(){
                                 <RouterLink to="/settings">Settings</RouterLink>
                             </li>
 
-                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5"><button
+                            <li class="hover:bg-red-800 bg-bg hover:text-bg px-1.25 py-5"><button
                                     @click="signOut()">LogOut</button></li>
                         </ul>
                     </div>
