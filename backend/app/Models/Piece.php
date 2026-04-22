@@ -16,7 +16,8 @@ class Piece extends Model
         'path',
         'metadata',
         'administered',
-        'user_id'
+        'user_id',
+        "artist_id"
     ];
 
     public function owner(): BelongsTo
