@@ -15,8 +15,10 @@ class PieceService
     public function list($request)
     {
         $filters = $request->validated();
+        
         $query = Piece::query();
         $searched = false;
+
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('title', 'like', "%{$filters['search']}%")
@@ -33,14 +35,22 @@ class PieceService
         }
 
         if (!empty($filters['tags'])) {
-            $query->whereIn('tags.id', $filters['tags']);
+            // $query->whereIn('tags.name', $filters['tags']);
+            $query->whereHas('tags', function ($q) use ($filters) {
+                $q->where('name', $filters['tags']);
+            });
+
             $searched = true;
         }
-        if ($searched) {
-            $pieces = $query->whereHas('tags')->inRandomOrder()->get();
-        } else {
-            $pieces = $query->whereHas('tags')->inRandomOrder()->take(10)->get();
+
+        $query->whereHas('tags')->inRandomOrder();
+
+        if (!$searched) {
+            $query->take(10);
         }
+
+        $pieces = $query->get();
+
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',
@@ -63,10 +73,10 @@ class PieceService
         $validated = $request->validated();
 
         if (Auth::user()->isAdmin()) {
-            $validated['creator_id'] = $validated['artist'];
+            $validated['artist_id'] = $validated['artist'];
             $validated['administered'] = true;
         } else {
-            $validated['creator_id'] = Auth::id();
+            $validated['user_id'] = Auth::id();
         }
 
         $validated['path'] = $request->file('path')->store('pieces', 'public');
@@ -88,7 +98,7 @@ class PieceService
         $validated = $request->validated();
 
         if (Auth::user()->isAdmin()) {
-            $validated['creator_id'] = $validated['artist'];
+            $validated['artist_id'] = $validated['artist'];
         }
 
         if ($request->hasFile('path')) {
