@@ -73,10 +73,10 @@ class PieceService
         $validated = $request->validated();
 
         if (Auth::user()->isAdmin()) {
-            $validated['creator_id'] = $validated['artist'];
+            $validated['artist_id'] = $validated['artist'];
             $validated['administered'] = true;
         } else {
-            $validated['creator_id'] = Auth::id();
+            $validated['user_id'] = Auth::id();
         }
 
         $validated['path'] = $request->file('path')->store('pieces', 'public');
@@ -98,7 +98,7 @@ class PieceService
         $validated = $request->validated();
 
         if (Auth::user()->isAdmin()) {
-            $validated['creator_id'] = $validated['artist'];
+            $validated['artist_id'] = $validated['artist'];
         }
 
         if ($request->hasFile('path')) {
