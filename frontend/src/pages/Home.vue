@@ -6,28 +6,20 @@ import PieceCard from "../components/PieceCard.vue";
 import router from "../router";
 import { useRoute } from "vue-router";
 
-const IMAGES = ref([]);
+const ITEMS = ref([]);
 const scrollComponent = ref(null);
+
+const TAB = ref("Pieces")
 
 const loadMorePieces = async () => {
   let newPieces = await loadPieces();
 
-  IMAGES.value.push(...newPieces);
+  ITEMS.value.push(...newPieces);
 };
-
-/* watchEffect(async() => {
-  console.log('enter');
-
-  const filters = useRoute().params
-  IMAGES.value = (await axiosClient.post("/index", filters)).data.data.pieces;
-  if(filters.value)
-    console.log(filters.value);
-
-}) */
 
 
 onMounted(async () => {
-  IMAGES.value = await loadPieces()
+  ITEMS.value = await loadPieces()
   window.addEventListener("scroll", handleScroll);
 });
 
@@ -43,9 +35,32 @@ const handleScroll = (e) => {
 </script>
 
 <template>
-  <main class="columns-5 gap-4" ref="scrollComponent">
-    <div v-for="image in IMAGES" class="">
-      <PieceCard :image="image" />
+
+
+  <main class="flex flex-col gap-16">
+
+    <div class="flex divide-x divide-solid divide-text">
+      <button class="w-full font-bold text-2xl hover:underline cursor-pointer "
+        :class="TAB == 'Pieces' ? 'border-b' : ''" @click="TAB = 'Pieces'">
+        Pieces
+      </button>
+      <button class="w-full font-bold text-2xl hover:underline cursor-pointer"
+        :class="TAB == 'Artist' ? 'border-b' : ''" @click="TAB = 'Artist'">
+        Artists
+      </button>
+    </div>
+
+
+    <div v-if="TAB == 'Pieces'" class="columns-5 gap-4" ref="scrollComponent">
+      <div v-for="image in ITEMS" class="">
+        <PieceCard :image="image" />
+      </div>
+    </div>
+
+    <div v-else class="columns-5 gap-4" ref="scrollComponent">
+      <div  class="">
+      Artist
+      </div>
     </div>
   </main>
 </template>
