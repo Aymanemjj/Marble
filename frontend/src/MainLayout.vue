@@ -7,12 +7,14 @@ import router from './router';
 import { search } from './services/PieceService';
 
 let Auth = JSON.parse(localStorage.getItem('user'))
-
+//SubMenus Stat
 const open = ref(false)
 const searchBar = ref(false)
+
+//Search inputs
 const filters = ref({
     search : null,
-    tags : [null]
+    tags : null
 })
 
 function filter(){

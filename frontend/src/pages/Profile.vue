@@ -14,7 +14,6 @@ const isLoading = computed(() => CREATOR.value == null);
 onMounted(async () => {
   CREATOR.value = (await axiosClient.get(`/creator/${type}/${id}`)).data.data;
 
-  console.log(CREATOR.value);
 
 });
 
