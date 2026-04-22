@@ -25,8 +25,8 @@ class FilterRequest extends FormRequest
     {
         return [
             'search' => 'nullable|string',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id',
+            'tags' => 'sometimes|exists:tags,name',
+            // 'tags.*' => 'exists:tags,name',
 
         ];
     }
@@ -34,7 +34,9 @@ class FilterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'tags.*.exists' => 'One or more selected tags do not exist.',
+            // 'tags.*.exists' => 'One or more selected tags do not exist.',
+            'tags.exists' => 'Tag does not exist.',
+
         ];
     }
 

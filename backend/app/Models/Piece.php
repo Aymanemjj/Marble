@@ -22,18 +22,18 @@ class Piece extends Model
     public function owner(): BelongsTo
     {
         return $this->administered
-            ? $this->belongsTo(Artist::class, 'creator_id')
-            : $this->belongsTo(User::class, 'creator_id');
+            ? $this->belongsTo(Artist::class, 'artist_id')
+            : $this->belongsTo(User::class, 'user_id');
     }
 
     public function artistOwner(): BelongsTo
     {
-        return $this->belongsTo(Artist::class, 'creator_id');
+        return $this->belongsTo(Artist::class, 'artist_id');
     }
 
     public function userOwner(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'creator_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
