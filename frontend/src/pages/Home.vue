@@ -24,11 +24,10 @@ const loadMorePieces = async () => {
     console.log(filters.value);
 
 }) */
+
+
 onMounted(async () => {
-  const filters = useRoute().params
-  IMAGES.value = (await axiosClient.post("/index", filters)).data.data.pieces;
-
-
+  IMAGES.value = await loadPieces()
   window.addEventListener("scroll", handleScroll);
 });
 
