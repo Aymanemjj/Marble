@@ -24,8 +24,8 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search' => 'nullable|string',
-            'tags' => 'sometimes|exists:tags,name',
+            'search' => 'sometimes|nullable|string',
+            'tags' => 'sometimes|nullable|exists:tags,name',
             // 'tags.*' => 'exists:tags,name',
 
         ];
