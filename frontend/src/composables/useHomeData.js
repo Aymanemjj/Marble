@@ -26,7 +26,7 @@ export function useHomeData() {
     })
     onMounted(async () => {
 
-        items.value = await loadPieces()
+        items.value = await loadPieces(router.currentRoute.value?.query)
 
         window.addEventListener("scroll", handleScroll);
     });

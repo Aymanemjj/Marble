@@ -1,25 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import BasicInput from '../components/BasicInput.vue';
-import router from '../router';
-import axiosClient from '../axios';
+import { ref } from 'vue';
 import Loading from '../components/Loading.vue';
 import SelectableTag from '../components/SelectableTag.vue';
+import { useFocusSettings } from '../composables/useFocusSettings';
 
-const MINUTES = ref(1)
-const SECONDS = ref(0)
-const TAGS = [
-    "Design", "Engineering", "Product", "Marketing", "Research", "Data", "Security", "Infrastructure",
-    "Critical", "High", "Medium", "Low", "Backlog",
-    "In progress", "Needs review", "Blocked", "Done", "Archived",
-    "Frontend", "Backend", "Mobile", "DevOps", "QA", "Design Ops"
-];
+const { MINUTES, SECONDS, TAGS } = useFocusSettings()
 
-/* const isLoading = computed(() => TAGS.value == null);
-
-onMounted(async () => {
-    TAGS.value = (await axiosClient.get('/focus/config/')).data.data;
-}) */
 </script>
 
 <template>

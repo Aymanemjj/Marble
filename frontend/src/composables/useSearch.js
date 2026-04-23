@@ -44,10 +44,7 @@ export function useSearch() {
 
     }
 
-/*     watch(filters, ()=>{
 
-    })
- */
     return {
         open,
         searchBar,

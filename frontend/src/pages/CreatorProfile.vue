@@ -1,21 +1,10 @@
 <script setup>
-import { useRoute } from "vue-router";
 import router from "../router";
-import { computed, onMounted, ref } from "vue";
-import axiosClient from "../axios";
 import Loading from "../components/Loading.vue";
-
-const id = useRoute().params.id;
-const type = useRoute().params.creatorType;
-
-const CREATOR = ref(null);
-const isLoading = computed(() => CREATOR.value == null);
-
-onMounted(async () => {
-  CREATOR.value = (await axiosClient.get(`/creator/${type}/${id}`)).data.data;
+import { useCreatorProfile } from "../composables/useCreatorProfile";
 
 
-});
+const { CREATOR, isLoading, type, id } = useCreatorProfile();
 
 
 </script>

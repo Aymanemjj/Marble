@@ -19,3 +19,14 @@ export async function signOut() {
     await axiosClient.post('/logout')
     location.reload();
 }
+
+
+export async function authintify(data, path) {
+    try {
+        const res = await axiosClient.post(`/${path}`, data.value);
+        signIn(res.data.data);
+        router.push('/');
+    } catch (err) {
+        console.log(err.response.data)
+    }
+}

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import PieceCard from "../components/PieceCard.vue";
-import { useHomeData } from "../composables/homePage";
+import { useHomeData } from "../composables/useHomeData";
 
 
 const {items, scrollComponent, selectedTab} = useHomeData();

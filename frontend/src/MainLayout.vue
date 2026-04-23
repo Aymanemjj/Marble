@@ -2,7 +2,7 @@
 import { RouterView} from 'vue-router';
 import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
-import { useSearch } from './composables/search';
+import { useSearch } from './composables/useSearch';
 
 
 const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
@@ -18,7 +18,7 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     Marble</RouterLink>
                 <RouterLink to="/focus/settings" class="cursor-pointer hover:underline">Focus</RouterLink>
-                <RouterLink to="/artists" class="cursor-pointer hover:underline">Artists</RouterLink>
+                <RouterLink to="/upload" class="cursor-pointer hover:underline">Upload</RouterLink>
 
 
                 <button class="cursor-pointer hover:underline z-50 relative h-full" @click="searchBar = true"

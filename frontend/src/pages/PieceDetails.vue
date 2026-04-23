@@ -1,18 +1,12 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watchEffect } from "vue";
-import axiosClient from "../axios";
 import Tag from "../components/Tag.vue";
 import router from "../router";
 import ContactLink from "../components/ContactLink.vue";
-import { useRoute } from "vue-router";
 import Loading from "../components/Loading.vue";
+import { usePieceDetails } from "../composables/usePieceDetails";
 
-const PIECE = ref(null);
-const isLoading = computed(() => PIECE.value == null);
-const id = useRoute().params.id;
-onMounted(async () => {
-  PIECE.value = (await axiosClient.get(`/piece/${id}`)).data.data.piece;
-});
+const {PIECE, isLoading} = usePieceDetails();
+
 </script>
 
 <template>
