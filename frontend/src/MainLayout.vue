@@ -1,32 +1,11 @@
 <script setup>
-import { RouterView } from 'vue-router';
+import { RouterView} from 'vue-router';
 import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
-import { computed, ref } from 'vue';
-import router from './router';
-import { search } from './services/PieceService';
+import { useSearch } from './composables/search';
 
-let Auth = JSON.parse(localStorage.getItem('user'))
-//SubMenus Stat
-const open = ref(false)
-const searchBar = ref(false)
 
-//Search inputs
-const filters = ref({
-    search : null,
-    tags : null
-})
-
-function filter(){
-    
-    router.push({
-        name:'Home',
-        query: {
-            search : filters.value.search,
-            tags: filters.value.tags
-        }
-    })
-}
+const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
 
 </script>
 
@@ -48,20 +27,23 @@ function filter(){
                     Search
                     <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200 bg-bg"
                         :class="searchBar ? 'scal-y-100' : 'scale-y-0'">
-                        <form @submit.prevent="search(filters)" class="p-2 flex flex-col gap-2">
+                        <form @submit.prevent="filter()" class="p-2 flex flex-col gap-2">
                             <input type="search" name="search" id="search" class="bg-asscent p-2"
                                 placeholder="Search ..." v-model="filters.search">
                             <div class="text-left">
                                 <label for="tags">Tags :</label>
                                 <select name="tags" id="tags" class="bg-asscent w-full p-2" v-model="filters.tags">
-                                    <option value=""></option>
+                                    <option :value="null"></option>
                                     <option value="Oil Painting">Oil Painting</option>
                                     <option value="Watercolor">Watercolor</option>
+                                    <option value="Portrait">Portrait</option>
                                 </select>
                             </div>
                             <div class="flex gap-2 w-full">
-                                <button type="submit" class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">Filter</button>
-                                <input type="reset" class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">
+                                <button type="submit"
+                                    class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">Filter</button>
+                                <input type="reset" @click="resetSearch()"
+                                    class="border border-text hover:bg-text hover:text-bg w-full cursor-pointer">
                             </div>
                         </form>
                     </div>
