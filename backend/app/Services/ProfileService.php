@@ -50,7 +50,7 @@ class ProfileService
         }
 
 
-        $pieces = Piece::where('administered', false)->where('creator_id', $user->id)->get();
+        $pieces = Piece::where('administered', false)->where('user_id', $user->id)->get();
         return response()->json([
             'success' => true,
             'message' => 'User profie',
@@ -90,7 +90,7 @@ class ProfileService
             ], 404);
         }
 
-        $pieces = Piece::where('administered', true)->where('creator_id', $artist->id)->get();
+        $pieces = Piece::where('administered', true)->where('artist_id', $artist->id)->get();
         return response()->json([
             'success' => true,
             'message' => 'Artist profile',
