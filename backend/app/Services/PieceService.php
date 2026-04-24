@@ -15,7 +15,7 @@ class PieceService
     public function list($request)
     {
         $filters = $request->validated();
-        
+
         $query = Piece::query();
         $searched = false;
 
@@ -46,7 +46,7 @@ class PieceService
         $query->whereHas('tags')->inRandomOrder();
 
         if (!$searched) {
-            $query->take(10);
+            $query->take(50);
         }
 
         $pieces = $query->get();
@@ -54,8 +54,78 @@ class PieceService
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',
-            'data'    => ['pieces' => PieceDTO::collection($pieces)]
+            'data'    => ['pieces' => PieceDTO::collection($this->algorithm($pieces, $searched))]
         ]);
+    }
+
+    private function algorithm($pieces, $searched)
+    {
+
+        
+
+        return $pieces;
+    }
+
+
+    private function overWeightCookie($name)
+    {
+            $data = json_decode($_COOKIE[$name]);
+            $serialized_data = serialize($data);
+            $size = (strlen($serialized_data) * 8 / 1024);
+
+            return $size > 3;
+
+    }
+    private function cleanCookie($name)
+    {
+
+        if (!$this->overWeightCookie($name)) return;
+
+        $prefs = json_decode($_COOKIE[Auth::user()->email . '_prefs'], true);
+        arsort($prefs);
+        array_splice($prefs, sizeof($prefs) / 2, sizeof($prefs)-1);
+
+        return;
+    }
+
+    public function setPrefrences($request)
+    {
+
+        $data = $request->validated();
+        $piece = Piece::find($data['piece']);
+        $auth = Auth::user();
+
+        if (isset($_COOKIE[$auth->email . '_prefs'])) {
+            $this->cleanCookie($auth->email . '_prefs');
+
+            $prefs = json_decode($_COOKIE[$auth->email . '_prefs'], true);
+
+            foreach ($piece->tags as $tag) {
+                $prefs[$tag->name] += $data['duration'];
+            }
+        } else {
+            $prefs = [];
+
+            foreach ($piece->tags as $tag) {
+                $prefs[$tag->name] = $data['duration'];
+            }
+        }
+
+        $this->markViewed($piece);
+
+        setcookie($auth->email . '_prefs', json_encode($prefs), [
+            'expires'  => time() + (86400 * 30),
+            'path'     => '/',
+            'secure'   => true,
+            'httponly' => true,
+        ]);
+        return;
+    }
+
+
+    private function markViewed(Piece $piece)
+    {
+        $piece->viewedBy()->attach(Auth::id());
     }
 
     public function show(Piece $piece)
@@ -138,3 +208,5 @@ class PieceService
         ]);
     }
 }
+
+

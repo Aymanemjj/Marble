@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Http\Requests\StoreAlgoPrefsRequest;
 use App\Http\Requests\StorePieceRequest;
 use App\Http\Requests\UpdatePieceRequest;
 use App\Models\Piece;
@@ -91,6 +92,18 @@ class PieceController extends Controller
         $this->authorize('delete', $piece);
         try {
             return $this->service->delete($piece);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function setPrefs(StoreAlgoPrefsRequest $request)
+    {
+        try {
+            return $this->service->setPrefrences($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
