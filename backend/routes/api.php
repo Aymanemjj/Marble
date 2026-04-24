@@ -66,6 +66,9 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Tags
     Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
+
+    //Algorithms
+    Route::post('/algo/prefs/set', [PieceController::class,'setPrefs'])->name('set-algo-prefs');
 });
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
