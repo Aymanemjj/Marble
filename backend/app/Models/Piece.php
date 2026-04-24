@@ -42,4 +42,10 @@ class Piece extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+
+    public function viewedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(Piece::class, 'views', 'piece_id', 'user_id');
+    }
 }

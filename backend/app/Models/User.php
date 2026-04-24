@@ -61,4 +61,8 @@ class User extends GeneralUser implements CreatorInterface
     public function collages(){
         return $this->hasMany(Collage::class);
     }
+
+    public function viewed():BelongsToMany{
+        return $this->belongsToMany(Piece::class, 'views', 'user_id', 'piece_id');
+    }
 }
