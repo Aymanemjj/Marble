@@ -52,11 +52,16 @@ class PieceService
         $pieces = $query->get();
 
 
-
         return response()->json([
             'success' => true,
             'message' => 'All available pieces',
-            'data'    => ['pieces' => PieceDTO::collection($this->algo->algorithm($pieces, $searched))]
+            'data'    => [
+                'pieces' => PieceDTO::collection(
+                    Auth::check()
+                        ? $this->algo->algorithm($pieces, $searched)
+                        : $pieces
+                )
+            ]
         ]);
     }
 
@@ -145,5 +150,3 @@ class PieceService
         ]);
     }
 }
-
-
