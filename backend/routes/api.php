@@ -19,27 +19,23 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
 
-    Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
-    Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
 
-    Route::get('/creator/artist/{artist}/gallery', [ProfileController::class, 'artistGallery'])->name('artist-gallery');
-    Route::get('/creator/user/{user}/gallery', [ProfileController::class, 'userGallery'])->name('user-gallery');
+
 
     //Pieces
-    Route::post("/index", [PieceController::class, 'index'])->name('piece-all');
     Route::post('/piece/create', [PieceController::class, 'store'])->name('piece-create');
     Route::put('/piece/{piece}/update', [PieceController::class, 'update'])->name('piece-update');
     Route::delete('/piece/{piece}/delete', [PieceController::class, 'destroy'])->name('piece-delete');
-    Route::get('/piece/{piece}', [PieceController::class, 'show'])->name('piece-details');
+
 
 
     //Collages
-    Route::get('/collage', [CollageController::class, 'index'])->name('collage-all');
+
     Route::get('/profile/collage', [CollageController::class, 'privateIndex'])->name('collage-privateList');
-    Route::get('/collage/{collage}', [CollageController::class, 'show'])->name('collage-show');
     Route::post('/collage/create', [CollageController::class, 'store'])->name('collage-create');
     Route::put('/collage/{collage}/update', [CollageController::class, 'update'])->name('collage-update');
     Route::delete('/collage/{collage}/delete', [CollageController::class, 'destroy'])->name('collage-delete');
+
     //Collage pieces
     Route::post('/collage/{collage}/add/{piece}', [CollageController::class, 'addPieceToCollage'])->name('collage-add');
     Route::delete('/collage/{collage}/remove/{piece}', [CollageController::class, 'removePieceFromCollage'])->name('collage-remove-piece');
@@ -57,8 +53,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
 
 
-    //Artist Routes
-    Route::get('/artists', [ArtistController::class, 'index'])->name('artist-index');
+
 
 
     //Focus
@@ -68,7 +63,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
 
     //Algorithms
-    Route::post('/algo/prefs/set', [PieceController::class,'setPrefs'])->name('set-algo-prefs');
+    Route::post('/algo/prefs/set', [PieceController::class, 'setPrefs'])->name('set-algo-prefs');
 });
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
@@ -92,3 +87,24 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
 //Authentication
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+
+
+// Creator profile
+Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
+Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
+Route::get('/creator/artist/{artist}/gallery', [ProfileController::class, 'artistGallery'])->name('artist-gallery');
+Route::get('/creator/user/{user}/gallery', [ProfileController::class, 'userGallery'])->name('user-gallery');
+
+//Pieces
+Route::post("/index", [PieceController::class, 'index'])->name('piece-all');
+Route::get('/piece/{piece}', [PieceController::class, 'show'])->name('piece-details');
+
+
+//Collages
+Route::get('/collage', [CollageController::class, 'index'])->name('collage-all');
+Route::get('/collage/{collage}', [CollageController::class, 'show'])->name('collage-show');
+
+
+//Artist Routes
+Route::get('/artists', [ArtistController::class, 'index'])->name('artist-index');
