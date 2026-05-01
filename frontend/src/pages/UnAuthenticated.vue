@@ -6,7 +6,7 @@
 <template>
     <main class="grid grid-cols-5 ">
         <div class="flex flex-col justify-center col-span-3 col-start-2">
-            <h1 class="font-bold text-2xl self-center">Authentication requiered</h1>
+            <h2 class="font-bold text-2xl self-center">Authentication requiered</h2>
 
             <img src="/public/error/UnAuthenticated.png" alt="">
 
