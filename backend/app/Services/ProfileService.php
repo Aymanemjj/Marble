@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Dtos\CollageDTO;
 use App\Dtos\CreatorDTO;
 use App\Dtos\PieceDTO;
 use App\Models\Artist;
+use App\Models\Collage;
 use App\Models\Piece;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -51,10 +53,12 @@ class ProfileService
 
 
         $pieces = Piece::where('administered', false)->where('user_id', $user->id)->get();
+        $collages = Collage::where('administered', false)->where('public', true)->where('user_id', $user->id)->get();
+
         return response()->json([
             'success' => true,
             'message' => 'User profie',
-            'data' => PieceDTO::collection($pieces)
+            'data' => ['pieces' => PieceDTO::collection($pieces), 'collages' => CollageDTO::collection($collages)]
         ]);
     }
 
@@ -91,10 +95,12 @@ class ProfileService
         }
 
         $pieces = Piece::where('administered', true)->where('artist_id', $artist->id)->get();
+        $collages = Collage::where('administered', true)->where('public', true)->where('user_id', $artist->id)->get();
+
         return response()->json([
             'success' => true,
             'message' => 'Artist profile',
-            'data' => PieceDTO::collection($pieces)
+            'data' => ['pieces' => PieceDTO::collection($pieces), 'collages' => CollageDTO::collection($collages)]
         ]);
     }
 

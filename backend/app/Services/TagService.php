@@ -14,7 +14,7 @@ class TagService
         return response()->json([
             'success' => true,
             'message' => 'All available tags',
-            'data'    => ['tags' => TagDTO::collection($tags->toArray())]
+            'data'    => ['tags' => TagDTO::collection($tags)]
         ]);
     }
 

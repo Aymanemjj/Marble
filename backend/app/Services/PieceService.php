@@ -89,12 +89,14 @@ class PieceService
             $validated['administered'] = true;
         } else {
             $validated['user_id'] = Auth::id();
+            $validated['administered'] = false;
         }
 
         $validated['path'] = $request->file('path')->store('pieces', 'public');
         $tags = $validated['tags'] ?? [];
         unset($validated['tags']);
         $piece = Piece::create($validated);
+
         $piece->tags()->sync($tags);
         $piece->load('tags');
         $piece->load('owner');
@@ -113,10 +115,6 @@ class PieceService
             $validated['artist_id'] = $validated['artist'];
         }
 
-        if ($request->hasFile('path')) {
-            Storage::disk('public')->delete($piece->path);
-            $validated['path'] = $request->file('path')->store('pieces', 'public');
-        }
         $tags = $validated['tags'] ?? [];
         unset($validated['tags']);
         $piece->update($validated);
@@ -131,9 +129,9 @@ class PieceService
 
     public function delete(Piece $piece)
     {
+        $piece->tags()->detach();
         Storage::disk('public')->delete($piece->path);
         $piece->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'Piece deleted successfully',
