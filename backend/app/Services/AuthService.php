@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Dtos\CollageDTO;
+use App\Dtos\PieceDTO;
 use App\Dtos\UserDTO;
 use App\Http\Resources\AuthResource;
+use App\Models\Collage;
+use App\Models\Piece;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +29,7 @@ class AuthService
 
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
-        $profile = Profile::create(['user_id'=> $user->id]);
+        $profile = Profile::create(['user_id' => $user->id]);
         $token = $user->createToken('Marble')->plainTextToken;
 
 
@@ -70,6 +74,27 @@ class AuthService
     }
 
     public function profile($request)
+    {
+
+        $pieces = Piece::with(['tags', 'owner'])
+            ->where('administered', false)
+            ->where('user_id', Auth::id())
+            ->get();
+
+        $collages = Collage::with(['pieces.tags', 'pieces.owner', 'owner'])
+            ->where('administered', false)
+            ->where('user_id', Auth::id())
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil utilisateur récupéré',
+            'data' => ["user" => UserDTO::make(Auth::user()), 'pieces' => PieceDTO::collection($pieces), 'collages' => CollageDTO::collection($collages)],
+        ], 200);
+    }
+
+
+    public function profilePinia($request)
     {
         return response()->json([
             'success' => true,
