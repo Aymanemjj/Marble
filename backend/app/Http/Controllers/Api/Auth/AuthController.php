@@ -54,6 +54,20 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+
+    public function profilePinia(Request $request)
+    {
+        try {
+            return $this->AuthService->profilePinia($request);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function logOut(Request $request)
     {
         try {
