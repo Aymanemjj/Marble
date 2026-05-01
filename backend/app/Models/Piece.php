@@ -48,4 +48,10 @@ class Piece extends Model
     {
         return $this->belongsToMany(Piece::class, 'views', 'piece_id', 'user_id');
     }
+
+
+    public function inCollages(): BelongsToMany
+    {
+        return $this->belongsToMany(Piece::class, 'collage_piece', 'piece_id', 'collage_id');
+    }
 }
