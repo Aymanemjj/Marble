@@ -6,3 +6,5 @@ import { createPinia } from 'pinia';
 
 
 createApp(MainLayout).use(router).use(createPinia()).mount('#app')
+
+
