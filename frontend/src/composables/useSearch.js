@@ -1,4 +1,4 @@
-import {ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import router from '../router';
 
 
@@ -7,6 +7,7 @@ export function useSearch() {
 
     //SubMenus Stat
     const open = ref(false)
+    const create = ref(false)
     const searchBar = ref(false)
 
     //Search inputs
@@ -26,7 +27,7 @@ export function useSearch() {
         })
     }
 
-    
+
 
     function resetSearch() {
         router.replace({ query: {} });
@@ -51,6 +52,7 @@ export function useSearch() {
         filters,
         filter,
         resetSearch,
-        search
+        search,
+        create
     }
 }
