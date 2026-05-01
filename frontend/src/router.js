@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Register from './pages/Register.vue'
 import Login from './pages/Login.vue'
-import Profile from './pages/CreatorProfile.vue'
+import CreatorProfile from './pages/CreatorProfile.vue'
 import Artists from './pages/Artists.vue'
 import FocusSettings from './pages/FocusSettings.vue'
 import About from './pages/About.vue'
@@ -10,13 +10,17 @@ import PieceDetails from './pages/PieceDetails.vue'
 import Gallery from './pages/Gallery.vue'
 import FocusPiece from './pages/FocusPiece.vue'
 import UnAuthenticated from './pages/UnAuthenticated.vue'
+import UploadPiece from './pages/UploadPiece.vue'
 import { useAuthStore } from './stores/useAuthStore'
+import Profile from './pages/Profile.vue'
+import AuthGallery from './pages/AuthGallery.vue'
+import EditPiece from './pages/EditPiece.vue'
 
 const routes = [
   { path: '/', component: Home, name: 'Home', props: true },
   { path: '/register', component: Register, meta: { guestOnly: true } },
   { path: '/login', component: Login, meta: { guestOnly: true } },
-  { path: '/creator/:creatorType/:id', component: Profile },
+  { path: '/creator/:creatorType/:id', component: CreatorProfile },
   { path: '/creator/:creatorType/:id/gallery', component: Gallery },
   { path: '/artists', component: Artists },
   { path: '/focus/settings', component: FocusSettings, meta: { requiresAuth: true } },
@@ -24,8 +28,15 @@ const routes = [
   { path: '/about', component: About },
   { path: '/piece/:id', component: PieceDetails, props: true },
 
-  { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } }
+  { path: '/upload', component: UploadPiece, meta: { requiresAuth: true } },
+  { path: '/piece/:id/edit', component: EditPiece, meta: { requiresAuth: true } },
 
+  { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+  { path: '/profile/gallery/pieces', component: AuthGallery, meta: { requiresAuth: true } },
+  { path: '/profile/gallery/collages', component: AuthGallery, meta: { requiresAuth: true } },
+
+
+  { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } }
 ]
 
 export const router = createRouter({
@@ -34,13 +45,15 @@ export const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
+
+router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
+  await auth.initialize();
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     next('/unauth');
   } else if (to.meta.guestOnly && auth.isAuthenticated) {
-    next('/'); 
+    next('/');
   } else {
     next();
   }
