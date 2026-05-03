@@ -24,8 +24,8 @@ class StoreAlgoPrefsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'piece' => 'required|exists:pieces,id',
-            'duration' => 'required|integer|min:15'
+            'piece_id' => 'required|exists:pieces,id',
+            'duration' => 'required|integer|min:3'
         ];
     }
 

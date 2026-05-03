@@ -35,7 +35,6 @@ class PieceService
         }
 
         if (!empty($filters['tags'])) {
-            // $query->whereIn('tags.name', $filters['tags']);
             $query->whereHas('tags', function ($q) use ($filters) {
                 $q->where('name', $filters['tags']);
             });
@@ -64,7 +63,6 @@ class PieceService
             ]
         ]);
     }
-
 
 
 

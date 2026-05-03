@@ -8,6 +8,7 @@ use App\Http\Requests\StoreAlgoPrefsRequest;
 use App\Http\Requests\StorePieceRequest;
 use App\Http\Requests\UpdatePieceRequest;
 use App\Models\Piece;
+use App\Services\AlgoService;
 use App\Services\PieceService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -103,7 +104,8 @@ class PieceController extends Controller
     public function setPrefs(StoreAlgoPrefsRequest $request)
     {
         try {
-            return $this->service->setPrefrences($request);
+            $algoService = new AlgoService();
+            return $algoService->setPrefrences($request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

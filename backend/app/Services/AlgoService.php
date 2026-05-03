@@ -26,8 +26,7 @@ class AlgoService
         $points = $this->getPoints($prefs);
 
         $piece_points = $this->pointsPerPiece($pieces, $points);
-        // arsort($piece_points);
-        uasort($pieces, function($p1, $p2) use($piece_points){
+        uasort($pieces, function ($p1, $p2) use ($piece_points) {
             return $piece_points[$p2->id] - $piece_points[$p1->id];
         });
 
@@ -45,8 +44,8 @@ class AlgoService
                 $piece->tags,
                 function ($p, $tag) use ($points) {
                     isset($points[$tag])
-                    ? $p += $points[$tag]
-                    : $p += 2;
+                        ? $p += $points[$tag]
+                        : $p += 2;
                     return $p;
                 },
                 0
@@ -98,27 +97,21 @@ class AlgoService
 
     public function setPrefrences($request)
     {
-
         $data = $request->validated();
-        $piece = Piece::find($data['piece']);
+        $increment = $data['duration'] >= 15 ? 1 : -1;
+
+        $piece = Piece::find($data['piece_id']);
         $auth = Auth::user();
 
-        if (isset($_COOKIE[$auth->email . '_prefs'])) {
-            $this->cleanCookie($auth->email . '_prefs');
+        $prefs = isset($_COOKIE[$auth->email . '_prefs'])
+            ? json_decode($_COOKIE[$auth->email . '_prefs'], true)
+            : [];
 
-            $prefs = json_decode($_COOKIE[$auth->email . '_prefs'], true);
-
-            foreach ($piece->tags as $tag) {
-                $prefs[$tag->name] += $data['duration'];
-            }
-        } else {
-            $prefs = [];
-
-            foreach ($piece->tags as $tag) {
-                $prefs[$tag->name] = $data['duration'];
-            }
+        foreach ($piece->tags as $tag) {
+            isset($prefs[$tag->name])
+                ? $prefs[$tag->name] += $increment
+                : $prefs[$tag->name] = $increment;
         }
-
 
         $this->markViewed($piece);
 
@@ -128,12 +121,14 @@ class AlgoService
             'secure'   => true,
             'httponly' => true,
         ]);
-        return;
     }
-
 
     private function markViewed(Piece $piece)
     {
-        $piece->viewedBy()->attach(Auth::id());
+        $piece->viewedBy()->syncWithPivotValues(
+            [Auth::id()],
+            ['last_seen' => now()],
+            false
+        );
     }
 }
