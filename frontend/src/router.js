@@ -20,6 +20,11 @@ import CollageCreate from './pages/CollageCreate.vue'
 import CollageDetails from './pages/CollageDetails.vue'
 import CollageEdit from './pages/CollageEdit.vue'
 import Followers from './pages/Followers.vue'
+import AdminDashboard from './pages/AdminDashboard.vue'
+import AdminArtists from './pages/AdminArtists.vue'
+import AdminTags from './pages/AdminTags.vue'
+import ArtistCreate from './pages/ArtistCreate.vue'
+import ArtistEdit from './pages/ArtistEdit.vue'
 
 const routes = [
   { path: '/', component: Home, name: 'Home', props: true },
@@ -47,7 +52,15 @@ const routes = [
 
   { path: '/collage/:id', component: CollageDetails },
 
-  { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } }
+  { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } },
+
+
+  { path: '/administration/dashboard', component: AdminDashboard, meta: { requiresAuth: true, requireAdmin: true } },
+  { path: '/administration/artists', component: AdminArtists, meta: { requiresAuth: true, requireAdmin: true } },
+  { path: '/administration/tags', component: AdminTags, meta: { requiresAuth: true, requireAdmin: true } },
+  { path: '/administration/artists', component: AdminArtists, meta: { requiresAuth: true, requireAdmin: true } },
+  { path: '/administration/artists/create', component: ArtistCreate, meta: { requiresAuth: true, requireAdmin: true } },
+  { path: '/administration/artists/:id/edit', component: ArtistEdit, memeta: { requiresAuth: true, requireAdmin: true } },
 
 ]
 
@@ -65,6 +78,8 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     next('/unauth');
   } else if (to.meta.guestOnly && auth.isAuthenticated) {
+    next('/');
+  } else if (to.meta.requireAdmin && !auth.isAdmin) {
     next('/');
   } else {
     next();
