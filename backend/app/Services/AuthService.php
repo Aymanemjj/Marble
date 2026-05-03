@@ -73,7 +73,7 @@ class AuthService
         ], 200);
     }
 
-    public function profile($request)
+    public function profile()
     {
 
         $pieces = Piece::with(['tags', 'owner'])

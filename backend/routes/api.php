@@ -19,6 +19,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/profile/pinia', [AuthController::class, 'profilePinia'])->name('profile-pinia');
     Route::post('/logout', [AuthController::class, 'logOut'])->name('logout');
+    Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile-update');
 
 
 
