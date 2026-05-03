@@ -5,7 +5,9 @@ import BasicTextArea from '../components/BasicTextArea.vue';
 import SelecteTags from '../components/SelecteTags.vue';
 import { usePieceCreate } from '../composables/usePieceCreate';
 
-const { data, errors, submit } = usePieceCreate()
+const { data, errors, submit, artists, auth } = usePieceCreate()
+
+
 
 </script>
 
@@ -20,10 +22,22 @@ const { data, errors, submit } = usePieceCreate()
                     class="col-span-2" />
                 <BasicInput :error="errors.date" v-model="data.date" label="Date" name="date" type="date"
                     class="col-span-2" />
-                <BasicInput :error="errors.path" label="Image" name="path" type="file"
-                    class="col-span-2" @change="e => data.path = e.target.files[0]" />
+                <BasicInput :error="errors.path" label="Image" name="path" type="file" class="col-span-2"
+                    @change="e => data.path = e.target.files[0]" />
+                <div class="flex flex-col">
+                    <label for="artist">Artist :</label>
+                    <select v-if="auth.isAdmin" name="artist" id="artist" class="bg-bg border border-text w-full p-2"
+                        v-model="data.artist">
+                        <option :value="null"></option>
+                        <option v-for="artist in artists" :value="artist.id">{{ artist.firstname + " " +
+                            artist.lastname}}</option>
 
-                <SelecteTags v-model="data.tags"/>
+                    </select>
+                    <span v-if="errors.artist" class="text-red-800 text-sm font-bold">
+                        {{ errors.artist[0] }}
+                    </span>
+                </div>
+                <SelecteTags v-model="data.tags" />
                 <BasicButton label="Upload" type="submit" class="col-span-2" />
             </form>
         </div>
