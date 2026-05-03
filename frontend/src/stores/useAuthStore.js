@@ -46,6 +46,9 @@ export const useAuthStore = defineStore('Auth', {
             this.auth.profile.picture = user.profile?.picture ?? null;
             this.auth.profile.banner = user.profile?.banner ?? null;
             this.auth.profile.biography = user.profile?.biography ?? null;
+            this.auth.profile.fav_piece_1 = user.profile?.fav_piece_1 ?? null;
+            this.auth.profile.fav_piece_2 = user.profile?.fav_piece_2 ?? null;
+
         },
 
         logout() {
@@ -61,6 +64,8 @@ export const useAuthStore = defineStore('Auth', {
             this.auth.profile.picture = null;
             this.auth.profile.banner = null;
             this.auth.profile.biography = null;
+            this.auth.profile.fav_piece_1 = null;
+            this.auth.profile.fav_piece_2 = null;
 
             this.token = null;
             localStorage.removeItem('token');

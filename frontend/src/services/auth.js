@@ -38,3 +38,7 @@ export async function authintify(data, path) {
         console.log(err);
     }
 }
+
+export function changeBanner(){
+    
+}

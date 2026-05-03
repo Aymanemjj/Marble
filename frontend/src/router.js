@@ -15,6 +15,7 @@ import { useAuthStore } from './stores/useAuthStore'
 import Profile from './pages/Profile.vue'
 import AuthGallery from './pages/AuthGallery.vue'
 import EditPiece from './pages/EditPiece.vue'
+import ProfileEdit from './pages/ProfileEdit.vue'
 
 const routes = [
   { path: '/', component: Home, name: 'Home', props: true },
@@ -34,9 +35,10 @@ const routes = [
   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
   { path: '/profile/gallery/pieces', component: AuthGallery, meta: { requiresAuth: true } },
   { path: '/profile/gallery/collages', component: AuthGallery, meta: { requiresAuth: true } },
-
+  { path: '/profile/edit', component: ProfileEdit, meta: { requiresAuth: true } },
 
   { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } }
+  
 ]
 
 export const router = createRouter({
