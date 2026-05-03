@@ -39,9 +39,7 @@ const auth = useAuthStore()
               Save
             </button>
           </div>
-          <div>
-            <b class="font-bold tabular-nums text-sm text-center">{{ display }}</b>
-          </div>
+
           <div v-if="focusStore.currentPiece.creator.id === auth.auth.id" class="flex gap-2">
             <button
               class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer"
@@ -53,6 +51,9 @@ const auth = useAuthStore()
               @click="deletePiece(focusStore.currentPiece.id)">
               Delete
             </button>
+          </div>
+          <div>
+            <b class="font-bold tabular-nums text-sm text-center">{{ display }}</b>
           </div>
         </div>
         <div class="flex gap-2">
