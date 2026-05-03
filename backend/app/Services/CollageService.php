@@ -79,8 +79,8 @@ class CollageService
 
         return response()->json([
             'success' => true,
-            'message' => 'Collages updated',
-            'data' => ['collages' => CollageDTO::make($collage)]
+            'message' => 'IDK',
+            'data' => ['collage' => CollageDTO::make($collage)]
         ], 201);
     }
 
