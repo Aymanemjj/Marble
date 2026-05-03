@@ -5,11 +5,13 @@ import { useAxiosRequest } from '../composables/useAxiosRequest'
 import Loading from '../components/Loading.vue'
 import BasicButton from '../components/BasicButton.vue'
 import PieceCard from '../components/PieceCard.vue'
+import { useAuthStore } from '../stores/useAuthStore'
+import { deleteCollage, editCollage } from '../services/CollageService'
 
 const route = useRoute()
 const collage = ref(null)
 const isLoading = computed(() => collage.value == null);
-
+const auth = useAuthStore()
 onMounted(async () => {
     const res = await useAxiosRequest('get', `/collage/${route.params.id}`, false)
     collage.value = res.data.collage
@@ -22,6 +24,18 @@ onMounted(async () => {
 <template>
     <Loading v-if="isLoading" />
     <main v-else class="min-h-screen">
+        <div v-if="collage.creator.id === auth.auth.id" class="flex gap-2 mx-4">
+            <button
+                class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer"
+                @click="editCollage(collage.id)">
+                Edit
+            </button>
+            <button
+                class="bg-text text-bg hover:underline hover:bg-red-800 hover:text-bg border border-bg hover:border-text px-2 cursor-pointer"
+                @click="deleteCollage(collage.id)">
+                Delete
+            </button>
+        </div>
 
         <div class="bg-asscent p-4 mx-4 mt-4 flex items-center justify-between gap-4">
             <div class="flex items-center gap-6">
