@@ -60,7 +60,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Focus
     Route::post('/focus/pieces', [FocusController::class, 'getPieces'])->name('focus-pieces');
-
+ 
     //Tags
     Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
 
