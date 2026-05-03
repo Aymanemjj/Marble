@@ -22,6 +22,7 @@ class UserDTO implements JsonSerializable
         private ?string  $biography,
         private ?PieceDTO $fav_piece_1,
         private ?PieceDTO $fav_piece_2,
+        private string $role,
     ) {}
 
     public static function make(User $user): self
@@ -43,6 +44,7 @@ class UserDTO implements JsonSerializable
             $user->profile->favPiece1 ? PieceDTO::make($user->profile->favPiece1) : null,
 
             $user->profile->favPiece2 ? PieceDTO::make($user->profile->favPiece2) : null,
+            $user->role
         );
     }
 
@@ -55,6 +57,7 @@ class UserDTO implements JsonSerializable
     {
         return  [
             'id' => $this->id,
+            'role'=>$this->role,
             'firstname'     => $this->firstname,
             'middlename'    => $this->middlename,
             'lastname'      => $this->lastname,

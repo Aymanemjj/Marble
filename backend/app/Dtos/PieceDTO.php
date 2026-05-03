@@ -33,9 +33,10 @@ class PieceDTO implements JsonSerializable
             $piece->metadata,
             TagDTO::collection($piece->tags),
             $piece->administered,
-            CreatorDTO::make($piece->owner)
+            $piece->administered
+                ? CreatorDTO::make($piece->artistOwner)
+                : CreatorDTO::make($piece->userOwner),
         );
-
     }
 
     public static function collection($pieces): array
@@ -57,7 +58,7 @@ class PieceDTO implements JsonSerializable
             'path'         => URL::to('/') . Storage::url($this->path),
             'metadata' => $this->metadata,
             'tags'  => $this->tags,
-            'administered'=> $this->administered,
+            'administered' => $this->administered,
             'creator' => $this->creator
         ];
     }
