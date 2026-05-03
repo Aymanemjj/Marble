@@ -20,7 +20,6 @@ class UpdatePieceRequest extends FormRequest
             'title'    => 'sometimes|string',
             'story'    => 'sometimes|string',
             'date'     => 'sometimes|date',
-            'path'     => 'sometimes|file|mimes:jpg,jpeg,png,gif,webp|max:20480',
             'metadata' => 'sometimes|string',
             'tags'     => 'sometimes|nullable|array',
             'tags.*'   => 'exists:tags,id',

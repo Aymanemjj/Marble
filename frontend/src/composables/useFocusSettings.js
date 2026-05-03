@@ -1,13 +1,27 @@
 import { ref } from "vue";
+import { useAxiosRequest } from "./useAxiosRequest";
+import { useFocusStore } from "../stores/useFocusStore";
+import { initializeFocus } from "../services/FocusService";
+import router from "../router";
 
 export function useFocusSettings() {
-    const MINUTES = ref(1)
-    const SECONDS = ref(0)
-    const TAGS = [
-        "Design", "Engineering", "Product", "Marketing", "Research", "Data", "Security", "Infrastructure",
-        "Critical", "High", "Medium", "Low", "Backlog",
-        "In progress", "Needs review", "Blocked", "Done", "Archived",
-        "Frontend", "Backend", "Mobile", "DevOps", "QA", "Design Ops"
-    ];
-    return {MINUTES, SECONDS, TAGS}
+
+    const data = ref({
+        minutes: 1,
+        seconds: 0,
+        tags: []
+    })
+
+    const errors = ref({
+        noPieces: false,
+        noMorePieces: false
+    })
+
+    async function submit() {
+        await initializeFocus(data.value)
+
+        router.push('/focus/piece')
+    }
+
+    return { data, submit, errors }
 }

@@ -38,7 +38,7 @@ class PiecePolicy
      */
     public function update(User $user, Piece $piece): bool
     {
-        return $user->active && $user->id == $piece->creator_id || $user->isAdmin() && $piece->administered && $user->active;
+        return $user->active && $user->id == $piece->user_id || $user->isAdmin() && $piece->administered && $user->active;
     }
 
     /**
@@ -46,9 +46,8 @@ class PiecePolicy
      */
     public function delete(User $user, Piece $piece): bool
     {
-        return $user->active && $user->id == $piece->creator_id  || $user->active && $user->isAdmin();
+        return $user->active && $user->id == $piece->user_id || $user->active && $user->isAdmin();
     }
-
     /**
      * Determine whether the user can restore the model.
      */

@@ -11,10 +11,10 @@ class FollowingController extends Controller
     public function __construct(private FollowingService $service) {}
 
 
-    public function indexFollowing()
+    public function listConnections()
     {
         try {
-            return $this->service->listFollowing();
+            return $this->service->listConnections();
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -24,17 +24,7 @@ class FollowingController extends Controller
     }
 
 
-    public function indexFollowers()
-    {
-        try {
-            return $this->service->listFollowers();
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
-    }
+
 
 
 

@@ -34,11 +34,9 @@ class ArtistService
     public function storeArtist($request)
     {
         $validated = $request->validated();
-        $validated['picture'] = $request->file('path')->store('pictures', 'public');
-        $validated['banner'] = $request->file('path')->store('banners', 'public');
-
+        $validated['picture'] = $request->file('picture')->store('pictures', 'public');
+        $validated['banner'] = $request->file('banner')->store('banners', 'public');
         $artist = Artist::create($validated);
-
         return response()->json([
             'success' => true,
             'message' => 'Artist saved',
@@ -49,7 +47,7 @@ class ArtistService
     public function updateArtist(Artist $artist, $request)
     {
         $validated = $request->validated();
-        
+
         if ($request->hasFile('banner')) {
             Storage::disk('public')->delete($artist->banner);
             $validated['banner'] = $request->file('banner')->store('banners', 'public');
@@ -64,7 +62,7 @@ class ArtistService
         $artist->save();
 
         return response()->json([
-            'sucsess' => true,
+            'success' => true,
             'message' => "$artist->firstname $artist->lastname has ben updated",
             'data' => ['artist' => CreatorDTO::make($artist)]
         ]);
@@ -76,21 +74,20 @@ class ArtistService
 
         if (!$artist) {
             return response()->json([
-                'sucsess' => false,
+                'success' => false,
                 'message' => "Artist doesn't exist",
             ]);
         }
 
         return response()->json([
-            'sucsess' => true,
+            'success' => true,
             'message' => "$artist->firstname $artist->lastname has ben found",
             'data' => ['artist' => CreatorDTO::make($artist), 'pieces' => PieceDTO::collection($pieces)]
         ]);
     }
 
-    public function deleteArtist($artist_id)
+    public function deleteArtist($artist)
     {
-        $artist = Artist::find($artist_id);
 
         if (!$artist) {
             return response()->json([

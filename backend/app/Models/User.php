@@ -46,7 +46,7 @@ class User extends GeneralUser implements CreatorInterface
     }
 
     public function getFollowers(){
-        return $this->belongsToMany(User::class, 'user_users', 'following_id');
+        return $this->belongsToMany(User::class, 'user_users', 'following_id')->get();
     }
 
 

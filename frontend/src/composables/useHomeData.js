@@ -1,47 +1,57 @@
-import { onMounted, onUnmounted, ref, watchEffect } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { loadPieces } from "../services/PieceService";
 import { useRoute } from "vue-router";
-import router from "../router";
 
 export function useHomeData() {
-    const items = ref([]);
-    const scrollComponent = ref(null);
-    const selectedTab = ref("Pieces")
+  const route = useRoute();
+  const pieces = ref([]);
+  const scrollComponent = ref(null);
+  const selectedTab = ref("Pieces");
+  const seen = new Set();
+  const creators = ref([]);
 
-
-    const loadMorePieces = async () => {
-        let newPieces = await loadPieces();
-        items.value.push(...newPieces);
-    };
-
-    watchEffect(async () => {
-
-        try {
-            items.value = await loadPieces(router.currentRoute.value?.query)
-        } catch (err) {
-
-            console.log(err);
-
-        }
-    })
-    onMounted(async () => {
-
-        items.value = await loadPieces(router.currentRoute.value?.query)
-
-        window.addEventListener("scroll", handleScroll);
+  const extractArtists = (newPieces) => {
+    newPieces.forEach(piece => {
+      if (!seen.has(piece.creator.id)) {
+        seen.add(piece.creator.id);
+        creators.value.push(piece.creator);
+      }
     });
+  };
 
-    onUnmounted(() => {
-        window.removeEventListener("scroll", handleScroll);
-    });
+  const loadMorePieces = async () => {
+    const newPieces = await loadPieces(route.query);
+    pieces.value.push(...newPieces);
+    extractArtists(newPieces);
+  };
 
-    const handleScroll = (e) => {
-        let element = scrollComponent.value;
-        if (element.getBoundingClientRect().bottom < window.innerHeight - 700) {
-            loadMorePieces();
-        }
-    };
+  // reset everything when query changes
+  watch(() => route.query, async (query) => {
+    pieces.value = [];
+    creators.value = [];
+    seen.clear();
+    const newPieces = await loadPieces(query);
+    pieces.value = newPieces;
+    extractArtists(newPieces);
+  });
 
-    return { items, scrollComponent, selectedTab }
+  onMounted(async () => {
+    const newPieces = await loadPieces(route.query);
+    pieces.value = newPieces;
+    extractArtists(newPieces);
+    window.addEventListener("scroll", handleScroll);
+  });
 
+  onUnmounted(() => {
+    window.removeEventListener("scroll", handleScroll);
+  });
+
+  const handleScroll = () => {
+    const element = scrollComponent.value;
+    if (element.getBoundingClientRect().bottom < window.innerHeight - 700) {
+      loadMorePieces();
+    }
+  };
+
+  return { pieces, creators, scrollComponent, selectedTab };
 }

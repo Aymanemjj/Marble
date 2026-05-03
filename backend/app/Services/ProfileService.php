@@ -2,16 +2,23 @@
 
 namespace App\Services;
 
+use App\Dtos\CollageDTO;
 use App\Dtos\CreatorDTO;
 use App\Dtos\PieceDTO;
 use App\Models\Artist;
+use App\Models\Collage;
 use App\Models\Piece;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileService
 {
+
+    use AuthorizesRequests;
+
     /**
      * Create a new class instance.
      */
@@ -51,10 +58,12 @@ class ProfileService
 
 
         $pieces = Piece::where('administered', false)->where('user_id', $user->id)->get();
+        $collages = Collage::where('administered', false)->where('public', true)->where('user_id', $user->id)->get();
+
         return response()->json([
             'success' => true,
             'message' => 'User profie',
-            'data' => PieceDTO::collection($pieces)
+            'data' => ['pieces' => PieceDTO::collection($pieces), 'collages' => CollageDTO::collection($collages)]
         ]);
     }
 
@@ -91,29 +100,40 @@ class ProfileService
         }
 
         $pieces = Piece::where('administered', true)->where('artist_id', $artist->id)->get();
+        $collages = Collage::where('administered', true)->where('public', true)->where('user_id', $artist->id)->get();
+
         return response()->json([
             'success' => true,
             'message' => 'Artist profile',
-            'data' => PieceDTO::collection($pieces)
+            'data' => ['pieces' => PieceDTO::collection($pieces), 'collages' => CollageDTO::collection($collages)]
         ]);
     }
 
     public function updateProfile($request)
     {
-        $profile = Auth::user()->profile;
         $validated = $request->validated();
 
 
-        if ($request->hasFile('banner')) {
+            $profile = Auth::user()->profile;
+            Gate::authorize('update', $profile);
+        
+
+        if ($request->hasFile('banner') && $profile->banner != null) {
             Storage::disk('public')->delete($profile->banner);
             $validated['banner'] = $request->file('banner')->store('banners', 'public');
         }
 
-        if ($request->hasFile('picture')) {
+        if ($request->hasFile('picture') && $profile->picture != null) {
             Storage::disk('public')->delete($profile->picture);
             $validated['picture'] = $request->file('picture')->store('pictures', 'public');
         }
 
+        unset($validated['artist_id']);
         $profile->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message'=> 'profile updated',
+        ]);
     }
 }

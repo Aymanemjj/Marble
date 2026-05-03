@@ -4,7 +4,7 @@ import Loading from "../components/Loading.vue";
 import { useCreatorProfile } from "../composables/useCreatorProfile";
 
 
-const { CREATOR, isLoading, type, id } = useCreatorProfile();
+const { CREATOR, isLoading, type, id, isFollowing, followToggle } = useCreatorProfile();
 
 
 </script>
@@ -12,13 +12,18 @@ const { CREATOR, isLoading, type, id } = useCreatorProfile();
 <template>
   <Loading v-if="isLoading" />
   <main v-else class="grid grid-cols-5 auto-rows-[25vh] gap-4">
-    <div class="h-full aspect-square">
-      <img :src="CREATOR.profile.picture" alt="" class="">
+    <div class="overflow-hidden ">
+      <img :src="CREATOR.profile.picture" alt="" class="w-full h-full object-cover" />
     </div>
-    <div class="flex gap-2 items-end">
-      <h3 class="text-2xl font-bold">{{ CREATOR.firstname.toUpperCase() }}</h3>
-      <h3 v-if="CREATOR.middlename != 'None'" class="text-2xl font-bold">{{ CREATOR.middlename.toUpperCase() }}</h3>
-      <h3 class="text-2xl font-bold">{{ CREATOR.lastname.toUpperCase() }}</h3>
+    <div class="flex gap-2 items-end text-left">
+      <h3 class="text-2xl font-bold">
+        {{ [CREATOR.firstname, CREATOR.middlename !== 'None' ? CREATOR.middlename : null,
+        CREATOR.lastname].filter(Boolean).join(' ').toUpperCase() }}
+      </h3>
+
+      <button class="bg-text text-bg hover:text-text hover:bg-bg border border-text px-2 cursor-pointer"
+        @click="followToggle()">{{
+          isFollowing ? 'Unfollow' : 'Follow' }}</button>
     </div>
     <div class="row-start-2 col-span-2">
       <p class="text-3xl font-bold w-full text-justify">{{ CREATOR.profile.biography.toUpperCase() }}</p>

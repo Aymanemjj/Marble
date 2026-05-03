@@ -1,32 +1,44 @@
 import axiosClient from "../axios";
-
+import router from "../router";
+import { useAuthStore } from "../stores/useAuthStore";
 
 
 
 export function signIn(res) {
-  let token = res.token;
-  let user = res.user;
+    let token = res.token;
+    let user = res.user;
 
-  localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', token);
-  
+    const auth = useAuthStore();
+    auth.register(user);
+    localStorage.setItem('token', token);
+
 }
 
 
 export async function signOut() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    await axiosClient.post('/logout')
-    location.reload();
+    const auth = useAuthStore();
+    try {
+        await axiosClient.post('/logout');
+    } finally {
+        auth.logout();
+        router.push('/login');
+    }
 }
 
 
 export async function authintify(data, path) {
     try {
-        const res = await axiosClient.post(`/${path}`, data.value);
+        const res = await axiosClient.post(`/${path}`, data);
         signIn(res.data.data);
         router.push('/');
     } catch (err) {
-        console.log(err.response.data)
+        if (err.response?.status === 422) {
+            return err.response.data.error;
+        }
+        console.log(err);
     }
+}
+
+export function changeBanner(){
+    
 }

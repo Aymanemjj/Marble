@@ -21,7 +21,9 @@ class Artist extends Model implements CreatorInterface
         'main_medium',
         'picture',
         'banner',
-        'biography'
+        'biography',
+        'fav_piece_id_1',
+        'fav_piece_id_2',
     ];
 
 

@@ -11,19 +11,25 @@ class Collage extends Model
 {
     use SoftDeletes;
 
-    protected $fillable =[
+    protected $fillable = [
         'title',
         'description',
         'public',
-        'user_id'
+        'user_id',
+        'artist_id',
+        'administered'
     ];
 
 
-    public function owner():BelongsTo{
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    public function pieces():BelongsToMany{
-        return $this->belongsToMany(Piece::class);
+    public function owner(): BelongsTo
+    {
+        return $this->administered
+            ? $this->belongsTo(Artist::class, 'artist_id')
+            : $this->belongsTo(User::class, 'user_id');
     }
 
+    public function pieces(): BelongsToMany
+    {
+        return $this->belongsToMany(Piece::class, 'collage_piece', 'collage_id', 'piece_id');
+    }
 }

@@ -1,11 +1,13 @@
 <script setup>
-import { RouterView} from 'vue-router';
+import { RouterView } from 'vue-router';
 import { signOut } from './services/auth';
 import BasicInput from './components/BasicInput.vue';
 import { useSearch } from './composables/useSearch';
+import { useAuthStore } from './stores/useAuthStore';
 
-
-const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
+const auth = useAuthStore();
+auth.initialize();
+const { open, searchBar, filters, filter, resetSearch, search, create, tags } = useSearch()
 
 </script>
 
@@ -18,7 +20,23 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     Marble</RouterLink>
                 <RouterLink to="/focus/settings" class="cursor-pointer hover:underline">Focus</RouterLink>
-                <RouterLink to="/upload" class="cursor-pointer hover:underline">Upload</RouterLink>
+                <button @mouseenter="create = true" @mouseleave="create = false"
+                    class="z-50 relative  px-1.25 py-5 text-center cursor-pointer hover:underline">
+                    Create
+                    <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200"
+                        :class="create ? 'scal-y-100' : 'scale-y-0'">
+                        <ul>
+                            <li class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                                <RouterLink to="/upload">Upload Piece</RouterLink>
+                            </li>
+
+                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5">
+                                <RouterLink to="/collage/create">Create Collage</RouterLink>
+                            </li>
+                        </ul>
+                    </div>
+                </button>
+
 
 
                 <button class="cursor-pointer hover:underline z-50 relative h-full" @click="searchBar = true"
@@ -34,9 +52,7 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
                                 <label for="tags">Tags :</label>
                                 <select name="tags" id="tags" class="bg-asscent w-full p-2" v-model="filters.tags">
                                     <option :value="null"></option>
-                                    <option value="Oil Painting">Oil Painting</option>
-                                    <option value="Watercolor">Watercolor</option>
-                                    <option value="Portrait">Portrait</option>
+                                    <option v-for="tag in tags" :value="tag.name">{{tag.name}}</option>
                                 </select>
                             </div>
                             <div class="flex gap-2 w-full">
@@ -50,7 +66,7 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
                 </button>
 
 
-                <RouterLink v-if="!Auth" to="/register"
+                <RouterLink v-if="!auth.isAuthenticated" to="/login"
                     class="border border-0.5 border-text px-1.25 py-5 text-center cursor-pointer hover:bg-text hover:text-bg">
                     JoinUs</RouterLink>
 
@@ -61,16 +77,17 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
                     <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200"
                         :class="open ? 'scal-y-100' : 'scale-y-0'">
                         <ul>
-                            <li class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                            <li v-if="auth.isAdmin" class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                                <RouterLink to="/administration/dashboard">Admin Dashboard</RouterLink>
+                            </li>
+                            <li v-else class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
                                 <RouterLink to="/profile">Profile</RouterLink>
                             </li>
 
-                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5">
-                                <RouterLink to="/settings">Settings</RouterLink>
+                            <li class="bg-bg">
+                                <button class="hover:bg-red-800 bg-bg hover:text-bg w-full px-1.25 py-5 cursor-pointer"
+                                    @click="signOut()">LogOut</button>
                             </li>
-
-                            <li class="hover:bg-red-800 bg-bg hover:text-bg px-1.25 py-5"><button
-                                    @click="signOut()">LogOut</button></li>
                         </ul>
                     </div>
                 </button>
@@ -80,7 +97,7 @@ const {open, searchBar, filters, filter, resetSearch, search} = useSearch()
 
     <RouterView />
 
-    <footer class="bg-text grid grid-cols-5 grid-rows-4 gap-4 text-bg mt-8">
+    <footer class="bg-text top-0 grid grid-cols-5 grid-rows-4 gap-4 text-bg mt-8">
 
         <div class="col-start-4 col-span-2">
             <form action="" class="grid grid-cols-2 ">

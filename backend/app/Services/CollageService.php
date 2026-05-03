@@ -45,6 +45,10 @@ class CollageService
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::id();
+        Auth::user()->isAdmin()
+            ?$validated['administered'] = true
+            :$validated['administered'] = false;        
+
         $collage = Collage::create($validated);
 
         return response()->json([
@@ -75,8 +79,8 @@ class CollageService
 
         return response()->json([
             'success' => true,
-            'message' => 'Collages updated',
-            'data' => ['collages' => CollageDTO::make($collage)]
+            'message' => 'IDK',
+            'data' => ['collage' => CollageDTO::make($collage)]
         ], 201);
     }
 
@@ -90,9 +94,8 @@ class CollageService
         ], 200);
     }
 
-    public function addPieceToCollage(Collage $collage, $piece_id)
+    public function addPieceToCollage(Collage $collage,Piece $piece)
     {
-        $piece = Piece::find($piece_id);
         if (is_null($piece)) {
             return response()->json([
                 'success' => false,

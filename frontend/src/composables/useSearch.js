@@ -1,5 +1,6 @@
-import {ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import router from '../router';
+import { useAxiosRequest } from './useAxiosRequest';
 
 
 
@@ -7,8 +8,9 @@ export function useSearch() {
 
     //SubMenus Stat
     const open = ref(false)
+    const create = ref(false)
     const searchBar = ref(false)
-
+    const tags = ref(null)
     //Search inputs
     const filters = ref({
         search: null,
@@ -26,7 +28,10 @@ export function useSearch() {
         })
     }
 
-    
+    onMounted(async()=>{
+        tags.value = (await useAxiosRequest('get', 'tags/list', false)).data.tags
+    })
+
 
     function resetSearch() {
         router.replace({ query: {} });
@@ -51,6 +56,8 @@ export function useSearch() {
         filters,
         filter,
         resetSearch,
-        search
+        search,
+        create,
+        tags
     }
 }

@@ -20,28 +20,16 @@ class FollowingService
 
 
 
-    public function listFollowing()
+    public function listConnections()
     {
         $user = Auth::user();
-        $follwing = $user->getFollowing();
-
         return response()->json([
             'success' => true,
-            'message' => 'All following',
-            'data' => CreatorDTO::collection($follwing)
-        ], 200);
-    }
-
-
-    public function listFollowers()
-    {
-        $user = Auth::user();
-        $follwing = $user->getFollowers();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'All followers',
-            'data' => CreatorDTO::collection($follwing)
+            'message' => 'Connections',
+            'data' => [
+                'following' => CreatorDTO::collection($user->getFollowing()),
+                'followers' => CreatorDTO::collection($user->getFollowers()),
+            ]
         ], 200);
     }
 

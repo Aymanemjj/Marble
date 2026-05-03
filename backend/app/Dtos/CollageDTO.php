@@ -9,24 +9,28 @@ use JsonSerializable;
 class CollageDTO implements JsonSerializable
 {
     public function __construct(
+        private int    $id,
         private string $title,
         private string $description,
         private bool   $public,
-        private ?UserDTO $owner,
+        private bool   $administered,
+        private ?CreatorDTO $owner,
         private ?array $pieces
     ) {}
 
     public static function make(Collage $collage): self
     {
         return new self(
+            $collage->id,
             $collage->title,
             $collage->description,
             $collage->public,
-            UserDTO::make($collage->owner),
+            $collage->administered,
+            CreatorDTO::make($collage->owner),
             PieceDTO::collection($collage->pieces)
-
         );
     }
+
 
     public static function collection($collages): array
     {
@@ -41,24 +45,17 @@ class CollageDTO implements JsonSerializable
 
     public function jsonSerialize(): array
     {
-        $return = [
-            'title'     => $this->title,
-            'description'    => $this->description,
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
             'public'      => $this->public,
-            'owner'         => [
-                'firstname'     => $this->owner->getFirstname(),
-                'middlename'    => $this->owner->getMiddlename(),
-                'lastname'      => $this->owner->getLastname(),
-                'email'         => $this->owner->getEmail(),
-            ],
-            'pieces'=>[]
+            'administered' => $this->administered,
+            'creator'     => $this->owner,
+            'pieces'      => $this->pieces,
         ];
-
-        foreach ($this->pieces as $piece) {
-            $return['pieces'] = $piece->jsonSerialize();
-        }
-        return $return;
     }
+
 
     public function getTitle(): string
     {

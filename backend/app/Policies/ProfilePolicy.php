@@ -37,7 +37,12 @@ class ProfilePolicy
      */
     public function update(User $user, Profile $profile): bool
     {
-        return $profile->user_id == $user->id;
+        return $profile->user_id == $user->id && $user->active;
+    }
+
+    public function updateArtist(User $user): bool
+    {
+        return $user->active && $user->isAdmin();
     }
 
     /**

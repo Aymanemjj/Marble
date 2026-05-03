@@ -111,11 +111,11 @@ class CollageController extends Controller
         }
     }
 
-    public function addPieceToCollage(Collage $collage, $piece_id)
+    public function addPieceToCollage(Collage $collage,Piece $piece)
     {
         $this->authorize('update', $collage);
         try {
-            return $this->service->addPieceToCollage($collage, $piece_id);
+            return $this->service->addPieceToCollage($collage, $piece);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,

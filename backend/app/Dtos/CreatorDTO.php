@@ -5,6 +5,7 @@ namespace App\Dtos;
 use App\Interfaces\CreatorInterface;
 use App\Models\Artist;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use JsonSerializable;
@@ -26,14 +27,19 @@ class CreatorDTO implements JsonSerializable
         private ?string $banner,
         private string $biography,
         private bool $administered,
+        private bool $is_following,
     ) {}
+
 
 
 
 
     public static function make(CreatorInterface $creator): self
     {
+        $user = Auth::user();
+
         if ($creator instanceof Artist) {
+            $is_following = $user ? $user->followedArtists()->where('following_id', $creator->id)->exists() : false;
             return new self(
                 $creator->id,
                 $creator->firstname,
@@ -41,13 +47,15 @@ class CreatorDTO implements JsonSerializable
                 $creator->lastname,
                 $creator->date_of_birth ?? "None provided",
                 $creator->date_of_death ?? 'Still alive',
-                $creator->main_medium  ?? "None",
-                $creator->picture ?? URL::to('/') . Storage::url('profiles/default.jpg'),
-                $creator->banner ?? URL::to('/') . Storage::url('profiles/default.jpg'),
+                $creator->main_medium ?? "None",
+                url(Storage::url($creator->picture ?? 'profiles/default.jpg')),
+                url(Storage::url($creator->banner ?? 'profiles/default.jpg')),
                 $creator->biography ?? 'None provided',
-                true
+                true,
+                $is_following,
             );
         } else {
+            $is_following = $user ? $user->followedUsers()->where('following_id', $creator->id)->exists() : false;
             return new self(
                 $creator->id,
                 $creator->firstname,
@@ -55,15 +63,15 @@ class CreatorDTO implements JsonSerializable
                 $creator->lastname,
                 $creator->date_of_birth ?? "None provided",
                 $creator->date_of_death ?? 'Still alive',
-                $creator->main_medium  ?? "None",
-                $creator->profile->picture ?? URL::to('/') . Storage::url('profiles/default.jpg'),
-                $creator->profile->banner ?? URL::to('/') . Storage::url('profiles/default.jpg'),
+                $creator->main_medium ?? "None",
+                url(Storage::url($creator->profile->picture ?? 'profiles/default.jpg')),
+                url(Storage::url($creator->profile->banner ?? 'profiles/default.jpg')),
                 $creator->profile->biography ?? 'None provided',
-                false
+                false,
+                $is_following,
             );
         }
     }
-
     public static function collection($creators): array
     {
         $list = [];
@@ -84,9 +92,10 @@ class CreatorDTO implements JsonSerializable
             'date_of_death' => $this->date_of_death,
             'main_medium'   => $this->main_medium,
             'administered' => $this->administered,
-            'profile'=>[
-                'picture'=>$this->picture,
-                'banner'=> $this->banner,
+            "is_following" => $this->is_following,
+            'profile' => [
+                'picture' => $this->picture,
+                'banner' => $this->banner,
                 'biography' => $this->biography,
             ]
         ];
