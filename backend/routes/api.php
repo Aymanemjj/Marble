@@ -46,8 +46,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Following System
 
-    Route::get('/profile/followers', [FollowingController::class, 'indexFollowers'])->name('user-followers');
-    Route::get('/profile/following', [FollowingController::class, 'indexFollowing'])->name('user-following');
+    Route::get('/profile/connections', [FollowingController::class, 'listConnections'])->name('connections-all');
     Route::post('/follow/user/{id}', [FollowingController::class, 'followUser'])->name('follow-user');
     Route::post('/follow/artist/{id}', [FollowingController::class, 'followArtist'])->name('follow-artist');
     Route::delete('/unfollow/user/{id}', [FollowingController::class, 'unfollowUser'])->name('unfollow-user');
@@ -60,7 +59,7 @@ Route::middleware("auth:sanctum")->group(function () {
 
     //Focus
     Route::post('/focus/pieces', [FocusController::class, 'getPieces'])->name('focus-pieces');
- 
+
     //Tags
     Route::get('/tags/list', [TagController::class, 'index'])->name('tags-all');
 
@@ -93,8 +92,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 // Creator profile
-Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile');
-Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile');
+Route::get('/creator/user/{user}', [ProfileController::class, 'userProfile'])->name('user-profile')->middleware('auth:sanctum,nullable');;
+Route::get('/creator/artist/{artist}', [ProfileController::class, 'artistProfile'])->name('artist-profile')->middleware('auth:sanctum,nullable');;
 Route::get('/creator/artist/{artist}/gallery', [ProfileController::class, 'artistGallery'])->name('artist-gallery');
 Route::get('/creator/user/{user}/gallery', [ProfileController::class, 'userGallery'])->name('user-gallery');
 
