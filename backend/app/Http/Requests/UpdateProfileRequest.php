@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -27,6 +29,9 @@ class UpdateProfileRequest extends FormRequest
             'picture' => 'sometimes|file|mimes:jpg,jpeg,png,gif,webp|max:5120',
             'banner' => 'sometimes|file|mimes:jpg,jpeg,png,gif,webp|max:20480',
             'biography' => 'sometimes|string',
+            'fav_piece_id_1' => 'sometimes', Rule::exists('pieces', 'id')->where('user_id', Auth::id()),
+            'fav_piece_id_2' => 'sometimes', Rule::exists('pieces', 'id')->where('user_id', Auth::id()),
+            'artist_id' => 'sometimes|exists:artists.id'
         ];
     }
 
@@ -43,6 +48,9 @@ class UpdateProfileRequest extends FormRequest
             'banner.max'       => 'The banner must not exceed 20MB.',
 
             'biography.string' => 'The biography must be a valid text string.',
+
+            'fav_piece_id_1.exists' => 'This piece doesn\'t exists',
+            'fav_piece_id_2.exists' => 'This piece doesn\'t exists'
         ];
     }
 
