@@ -19,7 +19,9 @@ class UserDTO implements JsonSerializable
         private ?string $main_medium,
         private ?string $picture,
         private ?string $banner,
-        private string  $biography,
+        private ?string  $biography,
+        private ?PieceDTO $fav_piece_1,
+        private ?PieceDTO $fav_piece_2,
     ) {}
 
     public static function make(User $user): self
@@ -37,6 +39,10 @@ class UserDTO implements JsonSerializable
             $user->profile->picture  ?? $defaultImage,
             $user->profile->banner   ?? $defaultImage,
             $user->profile->biography ?? 'None provided',
+
+            $user->profile->favPiece1 ? PieceDTO::make($user->profile->favPiece1) : null,
+
+            $user->profile->favPiece2 ? PieceDTO::make($user->profile->favPiece2) : null,
         );
     }
 
@@ -56,9 +62,11 @@ class UserDTO implements JsonSerializable
             'date_of_birth' => $this->date_of_birth,
             'main_medium'   => $this->main_medium,
             'profile' => [
-                'picture' => $this->picture,
-                'banner' => $this->banner,
+                'picture' => URL::to('/') . Storage::url($this->picture),
+                'banner' => URL::to('/') . Storage::url($this->banner),
                 'biography' => $this->biography,
+                'fav_piece_1' => $this->fav_piece_1,
+                'fav_piece_2' => $this->fav_piece_2,
             ]
         ];
     }
