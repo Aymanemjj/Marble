@@ -27,7 +27,8 @@ function toggle(id) {
 
     <div class="flex flex-col gap-2 w-full">
         <h3 class="font-bold text-sm">
-            Pick up to 5 tags
+            Selected:
+            <span class="">{{ selected.length }}</span>
         </h3>
         <div class="hidden">
             {{ selected = selectedTags ?? [] }}
