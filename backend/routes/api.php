@@ -68,6 +68,7 @@ Route::middleware("auth:sanctum")->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+    
     Route::post('/admin/tags/create', [TagController::class, 'store'])->name('tags-create');
     Route::patch('/admin/tags/{tag}/update', [TagController::class, 'update'])->name('tags-update');
     Route::delete('/admin/tags/{tag}/delete', [TagController::class, 'delete'])->name('tags-delete');
@@ -83,6 +84,8 @@ Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
     Route::get('/admin/stats', [AdminController::class, 'statistics'])->name('admin-stats');
     Route::patch('/admin/users/{user}/ban', [AdminController::class, 'banUser'])->name('admin-ban');
     Route::patch('/admin/users/{user}/unban', [AdminController::class, 'unbanUser'])->name('admin-unban');
+
+    Route::patch('/admin/auth/isadmin', [AdminController::class, 'unbanUser'])->name('admin-unban');
 });
 
 //Authentication

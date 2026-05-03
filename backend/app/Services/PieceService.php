@@ -97,7 +97,11 @@ class PieceService
 
         $piece->tags()->sync($tags);
         $piece->load('tags');
-        $piece->load('owner');
+        if (Auth::user()->isAdmin()) {
+            $piece->load('tags', 'artistOwner');
+        } else {
+            $piece->load('tags', 'userOwner');
+        }
         return response()->json([
             'success' => true,
             'message' => 'Piece created successfully',

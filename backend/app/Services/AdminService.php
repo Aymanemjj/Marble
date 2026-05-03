@@ -37,12 +37,15 @@ class AdminService
         return response()->json([
             'success' => true,
             'data' => [
-                'users'    => User::count(),
-                'artists'  => Artist::count(),
-                'pieces'   => Piece::count(),
-                'collages' => Collage::count(),
-                'tags'     => Tag::count(),
-            ],
+                'counts' => [
+                    'users'    => User::count(),
+                    'artists'  => Artist::count(),
+                    'pieces'   => Piece::count(),
+                    'collages' => Collage::count(),
+                    'tags'     => Tag::count(),
+                ],
+                'users' => User::all(),
+            ]
         ]);
     }
 }

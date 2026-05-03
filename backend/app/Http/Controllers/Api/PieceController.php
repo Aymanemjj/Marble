@@ -41,7 +41,7 @@ class PieceController extends Controller
      */
     public function store(StorePieceRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Piece::class);
         try {
             return $this->service->create($request);
         } catch (Exception $e) {

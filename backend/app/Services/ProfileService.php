@@ -113,13 +113,10 @@ class ProfileService
     {
         $validated = $request->validated();
 
-        if (!empty($validated['artist_id'])) {
-            $profile = Artist::find($validated['artist_id']);
-            Gate::authorize('updateArtist', $profile);
-        } else {
+
             $profile = Auth::user()->profile;
             Gate::authorize('update', $profile);
-        }
+        
 
         if ($request->hasFile('banner') && $profile->banner != null) {
             Storage::disk('public')->delete($profile->banner);
