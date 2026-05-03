@@ -7,7 +7,7 @@ import { useAuthStore } from './stores/useAuthStore';
 
 const auth = useAuthStore();
 auth.initialize();
-const { open, searchBar, filters, filter, resetSearch, search, create } = useSearch()
+const { open, searchBar, filters, filter, resetSearch, search, create, tags } = useSearch()
 
 </script>
 
@@ -52,9 +52,7 @@ const { open, searchBar, filters, filter, resetSearch, search, create } = useSea
                                 <label for="tags">Tags :</label>
                                 <select name="tags" id="tags" class="bg-asscent w-full p-2" v-model="filters.tags">
                                     <option :value="null"></option>
-                                    <option value="Oil Painting">Oil Painting</option>
-                                    <option value="Watercolor">Watercolor</option>
-                                    <option value="Portrait">Portrait</option>
+                                    <option v-for="tag in tags" :value="tag.name">{{tag.name}}</option>
                                 </select>
                             </div>
                             <div class="flex gap-2 w-full">
@@ -79,12 +77,11 @@ const { open, searchBar, filters, filter, resetSearch, search, create } = useSea
                     <div class="absolute top-full right-0 border border-0.5 border-text text-center w-full  origin-top duration-200"
                         :class="open ? 'scal-y-100' : 'scale-y-0'">
                         <ul>
-                            <li class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
-                                <RouterLink to="/profile">Profile</RouterLink>
+                            <li v-if="auth.isAdmin" class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                                <RouterLink to="/administration/dashboard">Admin Dashboard</RouterLink>
                             </li>
-
-                            <li class="hover:bg-text bg-bg hover:text-bg px-1.25 py-5">
-                                <RouterLink to="/settings">Settings</RouterLink>
+                            <li v-else class="hover:bg-text hover:text-bg bg-bg px-1.25 py-5">
+                                <RouterLink to="/profile">Profile</RouterLink>
                             </li>
 
                             <li class="bg-bg">
@@ -100,7 +97,7 @@ const { open, searchBar, filters, filter, resetSearch, search, create } = useSea
 
     <RouterView />
 
-    <footer class="bg-text grid grid-cols-5 grid-rows-4 gap-4 text-bg mt-8">
+    <footer class="bg-text top-0 grid grid-cols-5 grid-rows-4 gap-4 text-bg mt-8">
 
         <div class="col-start-4 col-span-2">
             <form action="" class="grid grid-cols-2 ">

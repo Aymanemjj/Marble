@@ -6,7 +6,6 @@ import { useAuthProfile } from "../composables/useAuthProfile";
 
 const { AUTH, isLoading } = useAuthProfile();
 
-console.log(AUTH);
 
 </script>
 
