@@ -19,6 +19,7 @@ import ProfileEdit from './pages/ProfileEdit.vue'
 import CollageCreate from './pages/CollageCreate.vue'
 import CollageDetails from './pages/CollageDetails.vue'
 import CollageEdit from './pages/CollageEdit.vue'
+import Followers from './pages/Followers.vue'
 
 const routes = [
   { path: '/', component: Home, name: 'Home', props: true },
@@ -39,6 +40,7 @@ const routes = [
   { path: '/profile/gallery/pieces', component: AuthGallery, meta: { requiresAuth: true } },
   { path: '/profile/gallery/collages', component: AuthGallery, meta: { requiresAuth: true } },
   { path: '/profile/edit', component: ProfileEdit, meta: { requiresAuth: true } },
+  { path: '/profile/followee', component: Followers, meta: { requiresAuth: true } },
 
   { path: '/collage/create', component: CollageCreate, meta: { requiresAuth: true } },
   { path: '/collage/:id/edit', component: CollageEdit, meta: { requiresAuth: true } },

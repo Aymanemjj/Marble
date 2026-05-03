@@ -17,9 +17,12 @@ console.log(AUTH);
       <img :src="AUTH.profile.picture" alt="" class="">
     </div>
     <div class="flex gap-2 items-end">
-      <h3 class="text-2xl font-bold">{{ AUTH.firstname.toUpperCase() }}</h3>
-      <h3 v-if="AUTH.middlename != 'None'" class="text-2xl font-bold">{{ AUTH.middlename.toUpperCase() }}</h3>
-      <h3 class="text-2xl font-bold">{{ AUTH.lastname.toUpperCase() }}</h3>
+
+      <h3 class="text-2xl font-bold">
+        {{ [AUTH.firstname, AUTH.middlename !== 'None' ? AUTH.middlename : null, AUTH.lastname].filter(Boolean).join('').toUpperCase() }}
+      </h3>
+      <RouterLink to="/profile/followee" class="text-text font-bold hover:underline text-md">See your followees
+      </RouterLink>
     </div>
     <div class="row-start-2 col-span-2">
       <p class="text-3xl font-bold w-full text-justify">{{ AUTH.profile.biography.toUpperCase() }}</p>
