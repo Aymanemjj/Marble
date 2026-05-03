@@ -45,6 +45,10 @@ class CollageService
     {
         $validated = $request->validated();
         $validated['user_id'] = Auth::id();
+        Auth::user()->isAdmin()
+            ?$validated['administered'] = true
+            :$validated['administered'] = false;        
+
         $collage = Collage::create($validated);
 
         return response()->json([
