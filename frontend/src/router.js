@@ -17,6 +17,7 @@ import AuthGallery from './pages/AuthGallery.vue'
 import EditPiece from './pages/EditPiece.vue'
 import ProfileEdit from './pages/ProfileEdit.vue'
 import CollageCreate from './pages/CollageCreate.vue'
+import CollageDetails from './pages/CollageDetails.vue'
 
 const routes = [
   { path: '/', component: Home, name: 'Home', props: true },
@@ -38,10 +39,11 @@ const routes = [
   { path: '/profile/gallery/collages', component: AuthGallery, meta: { requiresAuth: true } },
   { path: '/profile/edit', component: ProfileEdit, meta: { requiresAuth: true } },
 
-    { path: '/collage/create', component: CollageCreate, meta: { requiresAuth: true } },
+  { path: '/collage/create', component: CollageCreate, meta: { requiresAuth: true } },
+  { path: '/collage/:id', component: CollageDetails},
 
   { path: '/unauth', component: UnAuthenticated, meta: { guestOnly: true } }
-  
+
 ]
 
 export const router = createRouter({
