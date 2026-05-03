@@ -1,27 +1,39 @@
-import { computed, onMounted, ref } from "vue";
-import axiosClient from "../axios";
+import { onMounted, ref, computed } from "vue";
+import { useFocusStore } from "../stores/useFocusStore";
+import { getSettings } from "../services/FocusService";
 
 export function useFocusPiece() {
-    const PIECES = ref(null);
-    const ORDER = ref(0);
-    const SELECTED = ref(null);
-    const isLoading = computed(() => PIECES.value == null);
+    const focusStore = useFocusStore()
+    const isLoading = ref(true)
+    const showModal = ref(false)
+    const settings = getSettings()
+    const timeLeft = ref(settings.minutes * 60 + settings.seconds)
+    let interval = null
 
-    const data = {
-        tags: ['Watercolor']
+    const display = computed(() => {
+        const m = Math.floor(timeLeft.value / 60)
+        const s = timeLeft.value % 60
+        return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`
+    })
+
+    function startTimer() {
+        clearInterval(interval)
+        timeLeft.value = settings.minutes * 60 + settings.seconds
+        interval = setInterval(() => {
+            timeLeft.value--
+            if (timeLeft.value <= 0) {
+                clearInterval(interval)
+                focusStore.next()
+                startTimer()
+            }
+        }, 1000)
     }
 
     onMounted(async () => {
-        PIECES.value = (await axiosClient.post(`/focus/pieces`, data)).data.data;
-        SELECTED.value = PIECES.value[ORDER.value];
+        await focusStore.initialize(getSettings())
+        isLoading.value = false
+        startTimer()
+    })
 
-    });
-
-
-    function nextPiece() {
-
-    }
-
-
-    return {PIECES, ORDER, SELECTED, isLoading}
+    return { focusStore, isLoading, showModal, display }
 }
