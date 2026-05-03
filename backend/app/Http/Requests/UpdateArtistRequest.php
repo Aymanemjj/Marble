@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateArtistRequest extends FormRequest
 {
@@ -24,15 +25,18 @@ class UpdateArtistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'sometimes|max:255|string',
-            'middlename' => 'sometimes|max:255|string',
-            'lastname' => 'max:255|sometimes|string',
-            'date_of_birth' => 'max:255|sometimes|string',
-            'date_of_death' => 'max:255|sometimes|string',
-            'main_medium' => 'max:255|sometimes|string',
-            'biography' => 'string|sometimes',
-            'picture' => 'file|size:20480|sometimes|',
-            'banner'=> 'file|sometimes|size:20480'
+            'firstname'     => 'sometimes|string|max:255',
+            'middlename'    => 'sometimes|string|max:255',
+            'lastname'      => 'sometimes|string|max:255',
+            'date_of_birth' => 'sometimes|string|max:255',
+            'date_of_death' => 'sometimes|string|max:255',
+            'main_medium'   => 'sometimes|string|max:255',
+            'biography'     => 'sometimes|string',
+            'picture'       => 'sometimes|image|mimes:jpg,jpeg,png,gif,webp|max:5120',
+            'banner'        => 'sometimes|image|mimes:jpg,jpeg,png,gif,webp|max:20480',
+            'fav_piece_id_1' => ['sometimes', Rule::exists('pieces', 'id')->where('artist_id', $this->input('artist_id'))],
+            'fav_piece_id_2' => ['sometimes', Rule::exists('pieces', 'id')->where('artist_id', $this->input('artist_id'))],
+            'artist_id'     => 'sometimes|exists:artists,id',
         ];
     }
 
@@ -50,7 +54,7 @@ class UpdateArtistRequest extends FormRequest
             'main_medium.max' => 'Main medium needs to be less than 255 charachters.',
 
             'picture.size' => 'The picture needs to be less than 20 megabytes.',
-            
+
             'banner.size' => 'The banner needs to be less than 20 megabytes.',
 
         ];

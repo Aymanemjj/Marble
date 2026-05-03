@@ -31,7 +31,6 @@ class UpdateProfileRequest extends FormRequest
             'biography' => 'sometimes|string',
             'fav_piece_id_1' => 'sometimes', Rule::exists('pieces', 'id')->where('user_id', Auth::id()),
             'fav_piece_id_2' => 'sometimes', Rule::exists('pieces', 'id')->where('user_id', Auth::id()),
-            'artist_id' => 'sometimes|exists:artists.id'
         ];
     }
 
