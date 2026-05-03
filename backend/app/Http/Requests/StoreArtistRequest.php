@@ -24,15 +24,15 @@ class StoreArtistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'required|max:255|string',
-            'middlename' => 'sometimes|max:255|string',
-            'lastname' => 'max:255|required|string',
-            'date_of_birth' => 'max:255|required|string',
-            'date_of_death' => 'max:255|required|string',
-            'main_medium' => 'max:255|required|string',
-            'biography' => 'string|required',
-            'picture' => 'image|size:20480|mimes:jpg,jpeg,png,gif,webp|required|',
-            'banner' => 'image|required|mimes:jpg,jpeg,png,gif,webp|size:20480'
+            'firstname'    => 'required|string|max:255',
+            'middlename'   => 'sometimes|string|max:255',
+            'lastname'     => 'required|string|max:255',
+            'date_of_birth' => 'required|string|max:255',
+            'date_of_death' => 'sometimes|string|max:255',
+            'main_medium'  => 'required|string|max:255',
+            'biography'    => 'required|string',
+            'picture'      => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:5120',
+            'banner'       => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:20480',
         ];
     }
 
