@@ -94,9 +94,8 @@ class CollageService
         ], 200);
     }
 
-    public function addPieceToCollage(Collage $collage, $piece_id)
+    public function addPieceToCollage(Collage $collage,Piece $piece)
     {
-        $piece = Piece::find($piece_id);
         if (is_null($piece)) {
             return response()->json([
                 'success' => false,

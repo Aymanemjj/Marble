@@ -81,7 +81,7 @@ class AuthService
             ->where('user_id', Auth::id())
             ->get();
 
-        $collages = Collage::with(['pieces.tags', 'pieces.owner', 'owner'])
+        $collages = Collage::with(['pieces.tags', 'owner'])
             ->where('administered', false)
             ->where('user_id', Auth::id())
             ->get();
