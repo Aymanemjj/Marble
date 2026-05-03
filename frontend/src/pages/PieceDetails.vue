@@ -6,9 +6,13 @@ import Loading from "../components/Loading.vue";
 import { usePieceDetails } from "../composables/usePieceDetails";
 import { useAuthStore } from "../stores/useAuthStore";
 import { deletePiece, editPiece } from "../services/PieceService";
+import AddToCollageModal from "../components/AddToCollageModal.vue";
+import { ref } from "vue";
 
 const { PIECE, isLoading } = usePieceDetails();
 const auth = useAuthStore()
+const showModal = ref(false);
+
 </script>
 
 <template>
@@ -29,7 +33,8 @@ const auth = useAuthStore()
       <div class="flex justify-between">
         <div class="flex gap-4">
           <button
-            class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer">
+            class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer"
+            @click="showModal = true">
             Save
           </button>
           <div v-if="PIECE.creator.id === auth.auth.id" class="flex gap-2">
@@ -72,4 +77,6 @@ const auth = useAuthStore()
     </div>
 
   </main>
+
+  <AddToCollageModal v-if="showModal" :piece_id="PIECE.id" @close="showModal = false" />
 </template>
