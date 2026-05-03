@@ -38,7 +38,7 @@ class ArtistController extends Controller
      */
     public function store(StoreArtistRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Artist::class);
         try {
             return $this->service->storeArtist($request);
         } catch (Exception $e) {
@@ -68,11 +68,11 @@ class ArtistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtistRequest $request, $artist_id)
+    public function update(UpdateArtistRequest $request,Artist  $artist)
     {
-        $this->authorize('update');
+        $this->authorize('update', $artist);
         try {
-            return $this->service->updateArtist($artist_id, $request);
+            return $this->service->updateArtist($artist, $request);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -84,11 +84,11 @@ class ArtistController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($artist_id)
+    public function destroy(Artist $artist)
     {
-        $this->authorize('delete');
+        $this->authorize('delete', $artist);
         try {
-            return $this->service->deleteArtist($artist_id);
+            return $this->service->deleteArtist($artist);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -96,6 +96,4 @@ class ArtistController extends Controller
             ], 500);
         }
     }
-
-    
 }
