@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('Auth', {
         auth: {
             check: false,
             id: null,
+            role: null,
             firstname: null,
             middlename: null,
             lastname: null,
@@ -16,6 +17,8 @@ export const useAuthStore = defineStore('Auth', {
                 picture: null,
                 banner: null,
                 biography: null,
+                fav_piece_1: null,
+                fav_piece_2: null,
             },
         },
         token: localStorage.getItem('token') || null,
@@ -36,6 +39,7 @@ export const useAuthStore = defineStore('Auth', {
         register(user) {
             this.auth.check = true;
             this.auth.id = user.id ?? null
+            this.auth.role = user.role ?? null
             this.auth.firstname = user.firstname ?? null;
             this.auth.middlename = user.middlename ?? null;
             this.auth.lastname = user.lastname ?? null;
@@ -54,7 +58,8 @@ export const useAuthStore = defineStore('Auth', {
         logout() {
             this.auth.check = false;
             this.auth.id = null,
-                this.auth.firstname = null;
+            this.auth.role =  null
+            this.auth.firstname = null;
             this.auth.middlename = null;
             this.auth.lastname = null;
             this.auth.email = null;
@@ -82,6 +87,7 @@ export const useAuthStore = defineStore('Auth', {
             return parts.join(' ') || null;
         },
         isAuthenticated: (state) => state.auth.check && !!state.token,
+        isAdmin: (state) => state.auth.role === 'admin',
         picture: (state) => state.auth.profile.picture ?? '/default-pfp.png',
         banner: (state) => state.auth.profile.banner ?? '/default-banner.png',
         initials: (state) => {
