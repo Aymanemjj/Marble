@@ -43,10 +43,10 @@ class AuthController extends Controller
             ], 500);
         }
     }
-    public function profile(Request $request)
+    public function profile()
     {
         try {
-            return $this->AuthService->profile($request);
+            return $this->AuthService->profile();
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
