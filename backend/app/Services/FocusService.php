@@ -21,22 +21,22 @@ class FocusService
     {
         $validated = $request->validated();
         if (is_null($validated['tags'])) {
-            $pieces = Piece::inRandomOrder()->take(10)->get();
+            $pieces = Piece::inRandomOrder()->take(50)->get();
             return response()->json([
                 'success' => true,
-                'message' => '10 random pieces',
+                'message' => '50 random pieces',
                 'data' => PieceDTO::collection($pieces)
             ], 200);
         }
         $Rtags = $validated['tags'];
 
         $pieces = Piece::whereHas('tags', function ($query) use ($Rtags) {
-            $query->whereIn('tags.name', $Rtags);
-        })->inRandomOrder()->take(10)->get();
+            $query->whereIn('tags.id', $Rtags);
+        })->inRandomOrder()->take(50)->get();
 
         return response()->json([
             'success' => true,
-            'message' => '10 random pieces',
+            'message' => '50 random pieces',
             'data' => PieceDTO::collection($pieces)
         ], 200);
     }
