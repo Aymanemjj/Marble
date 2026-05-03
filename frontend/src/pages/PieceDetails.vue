@@ -37,8 +37,8 @@ const showModal = ref(false);
             @click="showModal = true">
             Save
           </button>
-          <div v-if="PIECE.creator.id === auth.auth.id" class="flex gap-2">
-            <button
+          <div v-if="PIECE.creator.id === auth.auth.id || auth.isAdmin" class="flex gap-2">
+            <button v-if="PIECE.creator.id === auth.auth.id"
               class="bg-text text-bg hover:underline hover:bg-bg hover:text-text border border-bg hover:border-text px-2 cursor-pointer"
               @click="editPiece(PIECE.id)">
               Edit

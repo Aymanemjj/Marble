@@ -5,9 +5,11 @@ import axiosClient from '../axios';
 
 const TAGS = ref([])
 onMounted(async () => {
-    TAGS.value = (await axiosClient.get('/tags/list')).data.data.tags;
-});
-defineProps(['selectedTags'])
+    TAGS.value = (await axiosClient.get('/tags/list')).data.data.tags
+    selected.value = props.selectedTags ?? []
+})
+
+const props = defineProps(['selectedTags'])
 const selected = ref([])
 const emit = defineEmits(['update:modelValue'])
 
@@ -30,9 +32,9 @@ function toggle(id) {
             Selected:
             <span class="">{{ selected.length }}</span>
         </h3>
-        <div class="hidden">
+        <!-- <div class="hidden">
             {{ selected = selectedTags ?? [] }}
-        </div>
+        </div> -->
         <div class="flex w-full h-fit flex-wrap gap-2">
             <SelectableTag v-for="tag in TAGS" :key="tag.id" :label="tag.name" :selected="selected.includes(tag.id)"
                 @click="toggle(tag.id)" />

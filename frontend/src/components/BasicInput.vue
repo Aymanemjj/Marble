@@ -8,7 +8,7 @@ defineEmits(['update:modelValue'])
         <label :for="name" class="font-bold text-sm">{{ label }}</label>
         <input :type="type" :name="name" :value="modelValue" 
             @input="$emit('update:modelValue', $event.target.value)"
-            class="border border-text bg-asscent h-12 text-sm" />
+            class="border border-text bg-bg h-12 text-sm" />
         <span v-if="error" class="text-red-800 text-sm font-bold">
             {{ error[0] }}
         </span>

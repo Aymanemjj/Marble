@@ -12,8 +12,8 @@ const { CREATOR, isLoading, type, id, isFollowing, followToggle } = useCreatorPr
 <template>
   <Loading v-if="isLoading" />
   <main v-else class="grid grid-cols-5 auto-rows-[25vh] gap-4">
-    <div class="h-full aspect-square">
-      <img :src="CREATOR.profile.picture" alt="" class="">
+    <div class="overflow-hidden ">
+      <img :src="CREATOR.profile.picture" alt="" class="w-full h-full object-cover" />
     </div>
     <div class="flex gap-2 items-end text-left">
       <h3 class="text-2xl font-bold">
@@ -21,8 +21,9 @@ const { CREATOR, isLoading, type, id, isFollowing, followToggle } = useCreatorPr
         CREATOR.lastname].filter(Boolean).join(' ').toUpperCase() }}
       </h3>
 
-      <button class="bg-text text-bg hover:text-text hover:bg-bg border border-text px-2 cursor-pointer" @click="followToggle()">{{
-        isFollowing ? 'Unfollow' : 'Follow' }}</button>
+      <button class="bg-text text-bg hover:text-text hover:bg-bg border border-text px-2 cursor-pointer"
+        @click="followToggle()">{{
+          isFollowing ? 'Unfollow' : 'Follow' }}</button>
     </div>
     <div class="row-start-2 col-span-2">
       <p class="text-3xl font-bold w-full text-justify">{{ CREATOR.profile.biography.toUpperCase() }}</p>
