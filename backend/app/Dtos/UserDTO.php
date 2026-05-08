@@ -65,7 +65,7 @@ class UserDTO implements JsonSerializable
             'date_of_birth' => $this->date_of_birth,
             'main_medium'   => $this->main_medium,
             'profile' => [
-                'picture' => URL::to('/') . Storage::url($this->picture),
+                'picture' =>  Storage::url($this->picture),
                 'banner' => URL::to('/') . Storage::url($this->banner),
                 'biography' => $this->biography,
                 'fav_piece_1' => $this->fav_piece_1,

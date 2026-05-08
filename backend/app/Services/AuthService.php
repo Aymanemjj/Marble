@@ -31,12 +31,12 @@ class AuthService
         $user = User::create($validated);
         $profile = Profile::create(['user_id' => $user->id]);
         $token = $user->createToken('Marble')->plainTextToken;
-
+        $userT = User::find($user->id);
 
         return response()->json([
             'success' => true,
             'message' => 'Registered succesfully.',
-            'data' => ["token" => $token, 'user' => UserDTO::make($user)]
+            'data' => ["token" => $token, 'user' => UserDTO::make($userT)]
         ], 201);
     }
 

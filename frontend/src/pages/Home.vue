@@ -21,7 +21,7 @@ const { pieces, creators, scrollComponent, selectedTab } = useHomeData();
     </div>
 
     <div ref="scrollComponent">
-      <div v-if="selectedTab == 'Pieces'" class="columns-5 gap-4">
+      <div v-if="selectedTab == 'Pieces'" class="columns-3 m:columns-5 gap-4">
         <div v-for="piece in pieces" :key="piece.id">
           <PieceCard :image="piece" />
         </div>

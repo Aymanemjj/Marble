@@ -28,6 +28,9 @@ class CreatorDTO implements JsonSerializable
         private string $biography,
         private bool $administered,
         private bool $is_following,
+        // private ?PieceDTO $fav_piece_1,
+        // private ?PieceDTO $fav_piece_2,
+
     ) {}
 
 
@@ -53,6 +56,9 @@ class CreatorDTO implements JsonSerializable
                 $creator->biography ?? 'None provided',
                 true,
                 $is_following,
+                // $creator->favPiece1 ? PieceDTO::make($creator->profile->favPiece1) : null,
+
+                // $creator->favPiece2 ? PieceDTO::make($creator->profile->favPiece2) : null,
             );
         } else {
             $is_following = $user ? $user->followedUsers()->where('following_id', $creator->id)->exists() : false;
@@ -69,6 +75,10 @@ class CreatorDTO implements JsonSerializable
                 $creator->profile->biography ?? 'None provided',
                 false,
                 $is_following,
+                // $creator->profile->favPiece1 ? PieceDTO::make($creator->profile->favPiece1) : null,
+
+                // $creator->profile->favPiece2 ? PieceDTO::make($creator->profile->favPiece2) : null,
+
             );
         }
     }
@@ -97,6 +107,8 @@ class CreatorDTO implements JsonSerializable
                 'picture' => $this->picture,
                 'banner' => $this->banner,
                 'biography' => $this->biography,
+                // 'fav_piece_1' => $this->fav_piece_1,
+                // 'fav_piece_2' => $this->fav_piece_2,
             ]
         ];
     }
