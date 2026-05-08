@@ -36,12 +36,13 @@ const { AUTH, isLoading } = useAuthProfile();
         Edit Banner
       </button>
     </div>
+    <h1>{{ AUTH }}</h1>
 
     <!-- <div v-if="AUTH.administered">
       <a :href="contact.path" v-for="contact in AUTH.contacts">{{ contact.name }}</a>
     </div> -->
 
-    <div class="row-start-4 row-span-2 col-span-2 w-full h-full">
+    <!-- <div class="row-start-4 row-span-2 col-span-2 w-full h-full">
       <img :src="AUTH.profile.fav_piece_1.path" alt="" class="w-full object-contain max-h-full ">
     </div>
     <div class="row-start-4 col-start-3 items-end flex">
@@ -55,12 +56,12 @@ const { AUTH, isLoading } = useAuthProfile();
       <h2 class="text-2xl font-bold">{{ AUTH.profile.fav_piece_2.title.toUpperCase() }}</h2>
     </div>
     <div class="row-start-7 col-start-1 col-span-3 flex items-end">
-      <p class="text-2xl font-bold text-justify">{{ AUTH.profile.fav_piece_1.story.toUpperCase() }}</p>
+      <p class="text-2xl font-bold text-justify">{{ AUTH.profile.fav_piece_2.story.toUpperCase() }}</p>
     </div>
 
     <div class="row-start-6 row-span-2 col-span-2 col-start-4 w-full h-full">
       <img :src="AUTH.profile.fav_piece_2.path" alt="" class="w-full object-contain max-h-full ">
-    </div>
+    </div> -->
 
     <div class="row-start-8 col-start-4 col-span-2">
       <button @click="router.push(`/profile/gallery/pieces`)"
